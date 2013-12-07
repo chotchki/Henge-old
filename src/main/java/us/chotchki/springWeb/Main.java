@@ -1,17 +1,16 @@
 package us.chotchki.springWeb;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.jetty.annotations.AnnotationConfiguration;
-import org.eclipse.jetty.plus.annotation.ContainerInitializer;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.HandlerCollection;
 import org.eclipse.jetty.server.handler.HandlerList;
-import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.webapp.Configuration;
 import org.eclipse.jetty.webapp.WebAppContext;
+import org.springframework.core.io.ClassPathResource;
 
 import us.chotchki.springWeb.init.FixedAnnotationConfig;
 
@@ -21,12 +20,11 @@ public class Main {
 	public static void main(String[] args) {
 		// Setup Jetty
 		Server server = new Server(httpPort);
-		org.eclipse.jetty.util.log.Log.getRootLogger().setDebugEnabled(true);
-
-		server.setHandler(createHandlers());
-		server.setStopAtShutdown(true);
 
 		try {
+			server.setHandler(createHandlers());
+			server.setStopAtShutdown(true);
+			
 			server.start();
 			server.join();
 		} catch (Exception e) {
@@ -34,17 +32,13 @@ public class Main {
 		}
 	}
 
-	private static Handler createHandlers() {
+	private static Handler createHandlers() throws IOException {
 		WebAppContext _ctx = new WebAppContext();
 		_ctx.setContextPath("/");
-		_ctx.setBaseResource(Resource.newClassPathResource("META-INF/webapp"));
-		// _ctx.getMetaData().addContainerResource(Resource.newClassPathResource());
 
-		_ctx.setAttribute("org.eclipse.jetty.server.webapp.ContainerIncludeJarPattern", ".*\\.class");
+		_ctx.setResourceBase(new ClassPathResource("webapp").getURI().toString());
 		_ctx.setConfigurations(new Configuration[] { new FixedAnnotationConfig() });
-
-		//ContainerInitializer ci = (ContainerInitializer) _ctx.getAttribute(AnnotationConfiguration.CONTAINER_INITIALIZERS);
-		//ci.addApplicableTypeName("us.chotchki.springWeb.init.WebAppInit");
+		
 		List<Handler> _handlers = new ArrayList<Handler>();
 
 		_handlers.add(_ctx);
