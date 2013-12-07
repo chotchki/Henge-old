@@ -1,5 +1,7 @@
 package us.chotchki.springWeb.init;
 
+import nz.net.ultraq.thymeleaf.LayoutDialect;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.thymeleaf.spring3.SpringTemplateEngine;
@@ -23,6 +25,7 @@ public class ThymeleafConfig {
 	public SpringTemplateEngine templateEngine() {
 		SpringTemplateEngine engine = new SpringTemplateEngine();
 		engine.setTemplateResolver(templateResolver());
+		engine.addDialect(new LayoutDialect()); 
 		return engine;
 	}
 
