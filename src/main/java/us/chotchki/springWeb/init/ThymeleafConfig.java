@@ -18,6 +18,7 @@ public class ThymeleafConfig {
 		resolver.setSuffix(".html");
 		resolver.setTemplateMode("HTML5");
 		resolver.setOrder(1);
+		resolver.setCacheable(false);
 		return resolver;
 	}
 
