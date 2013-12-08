@@ -4,12 +4,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.naming.NamingException;
+
+import org.eclipse.jetty.plus.jndi.Resource;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.HandlerCollection;
 import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.webapp.Configuration;
 import org.eclipse.jetty.webapp.WebAppContext;
+import org.hsqldb.jdbc.JDBCPool;
 import org.springframework.core.io.ClassPathResource;
 
 import us.chotchki.springWeb.init.FixedAnnotationConfig;
@@ -24,6 +28,7 @@ public class Main {
 		try {
 			server.setHandler(createHandlers());
 			server.setStopAtShutdown(true);
+			setupDb(server);
 			
 			server.start();
 			server.join();
@@ -32,12 +37,12 @@ public class Main {
 		}
 	}
 
-	private static Handler createHandlers() throws IOException {
+	private static Handler createHandlers() throws IOException, NamingException {
 		WebAppContext _ctx = new WebAppContext();
 		_ctx.setContextPath("/");
-
 		_ctx.setResourceBase(new ClassPathResource("webapp").getURI().toString());
 		_ctx.setConfigurations(new Configuration[] { new FixedAnnotationConfig() });
+		
 		
 		List<Handler> _handlers = new ArrayList<Handler>();
 
@@ -50,5 +55,13 @@ public class Main {
 		_result.setHandlers(new Handler[] { _contexts });
 
 		return _result;
+	}
+	
+	private static void setupDb(Object scope) throws NamingException {
+		JDBCPool pool = new JDBCPool();
+		pool.setUrl("jdbc:hsqldb:mem:mymemdb");
+		pool.setUser("SA");
+		pool.setPassword("");
+		Resource resource = new Resource(null, "jdbc/DB", pool); //Argh! Null must be passed or it will not work!
 	}
 }
