@@ -10,6 +10,8 @@ import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import com.googlecode.flyway.core.Flyway;
+
 @Configuration
 @EnableTransactionManagement
 public class RootConfig {
@@ -26,5 +28,13 @@ public class RootConfig {
     @Bean
     public PlatformTransactionManager txManager() {
         return new DataSourceTransactionManager(dataSource());
+    }
+    
+    @Bean
+    public Flyway flyway() {
+    	Flyway flyway = new Flyway();
+    	flyway.setDataSource(dataSource());
+    	flyway.migrate();
+    	return flyway;
     }
 }
