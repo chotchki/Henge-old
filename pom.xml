@@ -156,5 +156,12 @@
 			<artifactId>joda-time</artifactId>
 			<version>2.3</version>
 		</dependency>
+
+		<!-- Form Validation -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>5.0.2.Final</version>
+		</dependency>
 	</dependencies>
 </project>
