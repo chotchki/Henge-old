@@ -4,9 +4,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-public class Index {
+public class Index {	
 	@RequestMapping(value = "/")
 	public String index() {
-		return "index";
+		return "forward:/blog/page/0";
 	}
 }

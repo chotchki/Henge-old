@@ -10,7 +10,7 @@ import us.chotchki.springWeb.db.pojo.Post;
 public interface PostsDao {
 	public final static int POSTS_PER_PAGE = 5;
 	
-	@Select("select id, published, title, content from posts where id is between #{id} * " + POSTS_PER_PAGE + " and (#{id} + 1 ) * " + POSTS_PER_PAGE)
+	@Select("select id, published, title, content from posts where id between #{id} * " + POSTS_PER_PAGE + " and (#{id} + 1 ) * " + POSTS_PER_PAGE)
 	public List<Post> getPostsByPage(int page);
 	
 	@Insert("insert into posts (id, published, title, content) values (#{id}, #{published}, #{title}, #{content})")
