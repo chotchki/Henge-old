@@ -18,3 +18,5 @@ $('input[type=text],textarea').each(function() {
 		preview();
 	});
 });
+
+$('textarea').autosize();

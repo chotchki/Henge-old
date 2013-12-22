@@ -42,3 +42,7 @@ body {
     background-color: rgba(248, 248, 248, 0.8);
     border-color: #E7E7E7;
 }
+
+.blog-post {
+	background-color: rgba(245, 245, 245, 0.9);
+}

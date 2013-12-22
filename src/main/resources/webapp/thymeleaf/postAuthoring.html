@@ -5,7 +5,7 @@
 </head>
 <body>
 	<div class="container" layout:fragment="content">
-		<div class="row">
+		<div class="row well blog-post">
 			<div id="preview">
 		
 			</div>
@@ -13,7 +13,7 @@
 		
 		<hr />
 		
-		<div class="row">
+		<div class="row well">
 			<form id="postForm" method="POST" action="/blog/new">
 				<div class="form-group">
     				<label for="inputTitle">Post Title</label>
@@ -29,6 +29,7 @@
 	</div>
 	
 	<div layout:fragment="js">
+		<script type="text/javascript" src="/resources/autosize-1.18.1/autosize.js"></script>
 		<script type="text/javascript" src="/resources/js/postAuthoring.js"></script>
 	</div>
 </body>

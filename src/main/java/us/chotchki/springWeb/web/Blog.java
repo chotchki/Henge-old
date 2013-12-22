@@ -49,6 +49,6 @@ public class Blog {
 			return new ResponseEntity<String>(rPost.getFieldError().getDefaultMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
-		return new ResponseEntity<String>(markdown.toHTML(post.getContent()), HttpStatus.OK);
+		return new ResponseEntity<String>(markdown.formatPost(post), HttpStatus.OK);
 	}
 }
