@@ -7,9 +7,11 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
+import org.springframework.stereotype.Controller;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -18,6 +20,9 @@ import com.googlecode.flyway.core.Flyway;
 @Configuration
 @EnableTransactionManagement
 @MapperScan("us.chotchki.springWeb.db.dao")
+@ComponentScan(value = "us.chotchki.springWeb", excludeFilters = {
+		  @ComponentScan.Filter(value=Controller.class)
+		  })
 public class RootConfig {
 
 	@Bean

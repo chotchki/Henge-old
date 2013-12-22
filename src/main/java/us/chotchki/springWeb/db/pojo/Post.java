@@ -1,11 +1,16 @@
 package us.chotchki.springWeb.db.pojo;
 
+import org.hibernate.validator.constraints.NotEmpty;
 import org.joda.time.Instant;
 
 public class Post {
 	private int id = 0;
 	private Instant published = null;
+	
+	@NotEmpty
 	private String title = null;
+	
+	@NotEmpty
 	private String content = null;
 	
 	public int getId() {
