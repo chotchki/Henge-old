@@ -47,7 +47,7 @@ public class Markdown {
 			postDate = new Instant();
 		}
 		markedUp.append("*" + time.format(postDate) + "*\n");
-		markedUp.append("<hr />");
+		markedUp.append("<hr />\n");
 		markedUp.append(post.getContent());
 		
 		return this.toHTML(markedUp.toString());

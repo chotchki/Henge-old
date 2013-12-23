@@ -12,6 +12,8 @@
 			<a href="/blog/new" class="btn btn-primary btn-lg" role="button">Create New Post</a>
 		</div>
 		
+		<hr />
+		
 		<div class="row well blog-post" th:each="post : ${posts}" th:utext="${post}">
 		</div>
 	</div>
