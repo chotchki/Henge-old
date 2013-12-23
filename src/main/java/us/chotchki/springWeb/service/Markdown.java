@@ -1,6 +1,8 @@
 package us.chotchki.springWeb.service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.joda.time.Instant;
 import org.pegdown.Extensions;
@@ -49,5 +51,13 @@ public class Markdown {
 		markedUp.append(post.getContent());
 		
 		return this.toHTML(markedUp.toString());
+	}
+	
+	public List<String> formatPosts(List<Post> posts){
+		List<String> formatted = new ArrayList<String>(posts.size());
+		for(Post post: posts){
+			formatted.add(this.formatPost(post));
+		}
+		return formatted;
 	}
 }

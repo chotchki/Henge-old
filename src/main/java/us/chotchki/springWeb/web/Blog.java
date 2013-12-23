@@ -1,5 +1,7 @@
 package us.chotchki.springWeb.web;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.joda.time.Instant;
@@ -39,13 +41,15 @@ public class Blog {
 	
 	@RequestMapping(value = "/page/{number}")
 	public String showPage(@PathVariable int number, Model mod) {
-		mod.addAttribute("posts", postsService.getPostsByPage(number));
+		List<Post> posts = postsService.getPostsByPage(number);
+		mod.addAttribute("posts", markdown.formatPosts(posts));
 		return "index";
 	}
 	
 	@RequestMapping(value = "/post/{number}")
 	public String showPost(@PathVariable int number, Model mod) {
-		mod.addAttribute("posts", postsService.getPostById(number));
+		List<Post> posts = postsService.getPostById(number);
+		mod.addAttribute("posts", markdown.formatPosts(posts));
 		return "index";
 	}
 
