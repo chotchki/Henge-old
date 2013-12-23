@@ -3,8 +3,8 @@ package us.chotchki.springWeb.db.dao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.SelectKey;
 
 import us.chotchki.springWeb.db.pojo.Post;
 
@@ -18,6 +18,6 @@ public interface PostsDao {
 	public List<Post> getPostById(int id);
 	
 	@Insert("insert into posts (id, published, title, content) values (#{id}, #{published}, #{title}, #{content})")
-	@Options(useGeneratedKeys = true)
-	public void create(Post post);
+	@SelectKey(statement = "CALL IDENTITY()", before = false, keyProperty = "id", resultType = Integer.class)
+	public int create(Post post);
 }

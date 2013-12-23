@@ -4,6 +4,7 @@ import javax.annotation.Resource;
 import javax.sql.DataSource;
 
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.joda.time.Instant;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +15,8 @@ import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import us.chotchki.springWeb.db.handlers.InstantTypeHandler;
 
 import com.googlecode.flyway.core.Flyway;
 
@@ -38,12 +41,21 @@ public class RootConfig {
 	public PlatformTransactionManager txManager() {
 		return new DataSourceTransactionManager(dataSource());
 	}
+	
+	@Bean
+	public InstantTypeHandler instantTypeHandler(){
+		return new InstantTypeHandler();
+	}
 
 	@Bean
 	public SqlSessionFactory sqlSessionFactory() throws Exception {
 		SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
 		sessionFactory.setDataSource(dataSource());
-		return sessionFactory.getObject();
+		SqlSessionFactory ssf =  sessionFactory.getObject();
+		
+		ssf.getConfiguration().getTypeHandlerRegistry().register(Instant.class, instantTypeHandler());
+		ssf.getConfiguration().getTypeHandlerRegistry().register(Instant.class, null, instantTypeHandler());
+		return ssf;
 	}
 
 	@Bean

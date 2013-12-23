@@ -65,7 +65,8 @@ public class Blog {
 		
 		try {
 			post.setPublished(new Instant());
-			postsService.create(post);
+			int id = postsService.create(post);
+			log.debug("id is {}", id);
 		} catch (Exception e){
 			log.error("Had an error creating a new post", e);
 			redirectAttributes.addFlashAttribute("error", "Had an error creating a new post.");

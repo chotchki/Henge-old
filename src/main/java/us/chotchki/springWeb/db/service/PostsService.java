@@ -23,7 +23,7 @@ public class PostsService {
 	}
 
 	@Transactional
-	public void create(Post post) {
-		postsDao.create(post);
+	public int create(Post post) {
+		return postsDao.create(post);
 	}
 }
