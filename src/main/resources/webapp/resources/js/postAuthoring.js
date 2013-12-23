@@ -20,3 +20,5 @@ $('input[type=text],textarea').each(function() {
 });
 
 $('textarea').autosize();
+
+preview();

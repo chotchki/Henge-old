@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -37,8 +39,22 @@
 				</div>
 			</div>
 		</div>
+		
+		<!--/* Notifications */-->
+		<div th:if="${success}" class="container">
+			<div class="alert alert-success alert-dismissable">
+				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+				<p th:text="${success}"></p>
+			</div>
+		</div>
+		<div th:if="${error}" class="container">
+			<div class="alert alert-error alert-dismissable">
+				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+				<p th:text="${error}"></p>
+			</div>
+		</div>
 
-		<!-- Begin page content -->
+		<!--/* Begin page content */-->
 		<div class="container clearfix" layout:fragment="content">
 			Page Content Goes Here
 		</div>
@@ -51,9 +67,9 @@
     </footer>
 
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
+    <!--/* Core JavaScript
+    ==================================================
+    Placed at the end of the document so the pages load faster */-->
     <script src="/resources/jquery-2.0.3/jquery.min.js"></script>
     <script src="/resources/bootstrap-3.0.3/bootstrap.min.js"></script>
     <div layout:fragment="js"></div>
