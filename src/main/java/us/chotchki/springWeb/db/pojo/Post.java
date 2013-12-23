@@ -1,11 +1,13 @@
 package us.chotchki.springWeb.db.pojo;
 
+import java.math.BigDecimal;
+
 import javax.validation.constraints.NotNull;
 
 import org.joda.time.Instant;
 
 public class Post {
-	private int id = -1;
+	private BigDecimal id = null;
 	private Instant published = null;
 	
 	@NotNull
@@ -14,10 +16,10 @@ public class Post {
 	@NotNull
 	private String content = null;
 	
-	public int getId() {
+	public BigDecimal getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(BigDecimal id) {
 		this.id = id;
 	}
 	public Instant getPublished() {

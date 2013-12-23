@@ -1,5 +1,7 @@
 package us.chotchki.springWeb.service;
 
+import java.math.BigDecimal;
+
 import org.joda.time.Instant;
 import org.pegdown.Extensions;
 import org.pegdown.PegDownProcessor;
@@ -23,8 +25,8 @@ public class Markdown {
 		StringBuilder markedUp = new StringBuilder();
 		
 		String postUrl = "/blog/post/";
-		int id = post.getId();
-		if(id == -1) {
+		BigDecimal id = post.getId();
+		if(id == null) {
 			postUrl = "#";
 		} else {
 			postUrl += id;

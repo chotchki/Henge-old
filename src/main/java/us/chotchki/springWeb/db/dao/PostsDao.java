@@ -1,5 +1,6 @@
 package us.chotchki.springWeb.db.dao;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Insert;
@@ -18,6 +19,6 @@ public interface PostsDao {
 	public List<Post> getPostById(int id);
 	
 	@Insert("insert into posts (id, published, title, content) values (#{id}, #{published}, #{title}, #{content})")
-	@SelectKey(statement = "CALL IDENTITY()", before = false, keyProperty = "id", resultType = Integer.class)
+	@SelectKey(statement = "CALL IDENTITY()", before = false, keyProperty = "id", resultType = BigDecimal.class)
 	public int create(Post post);
 }
