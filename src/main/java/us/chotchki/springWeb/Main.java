@@ -59,7 +59,13 @@ public class Main {
 	
 	private static void setupDb(Object scope) throws NamingException {
 		JDBCPool pool = new JDBCPool();
-		pool.setUrl("jdbc:hsqldb:mem:mymemdb");
+		
+		String dbDir = System.getProperty("db");
+		if(dbDir == null) {
+			pool.setUrl("jdbc:hsqldb:mem:mymemdb");
+		} else {
+			pool.setUrl("jdbc:hsqldb:file:" + dbDir + ";shutdown=true;hsqldb.default_table_type=cached");
+		}
 		pool.setUser("SA");
 		pool.setPassword("");
 		Resource resource = new Resource(null, "jdbc/DB", pool); //Argh! Null must be passed or it will not work!
