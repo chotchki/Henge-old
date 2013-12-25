@@ -15,7 +15,7 @@ public class PostsService {
 	private PostsDao postsDao = null;
 
 	public List<Post> getPostsByPage(int page) {
-		return postsDao.getPostsByPage(page);
+		return postsDao.getPostsByPage(page * PostsDao.POSTS_PER_PAGE);
 	}
 	
 	public List<Post> getPostById(int id){

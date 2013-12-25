@@ -12,8 +12,8 @@ import us.chotchki.springWeb.db.pojo.Post;
 public interface PostsDao {
 	public final static int POSTS_PER_PAGE = 5;
 	
-	@Select("select id, published, title, content from posts where id between #{id} * " + POSTS_PER_PAGE + " and (#{id} + 1 ) * " + POSTS_PER_PAGE)
-	public List<Post> getPostsByPage(int page);
+	@Select("select id, published, title, content from posts order by published desc OFFSET #{offset} LIMIT " + POSTS_PER_PAGE)
+	public List<Post> getPostsByPage(int offset);
 	
 	@Select("select id, published, title, content from posts where id = #{id}")
 	public List<Post> getPostById(int id);
