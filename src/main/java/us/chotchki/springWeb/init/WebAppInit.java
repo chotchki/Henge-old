@@ -1,7 +1,5 @@
 package us.chotchki.springWeb.init;
 
-import java.net.MalformedURLException;
-
 import javax.servlet.ServletContext;
 import javax.servlet.ServletRegistration;
 

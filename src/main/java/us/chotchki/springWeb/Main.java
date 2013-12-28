@@ -68,6 +68,6 @@ public class Main {
 		}
 		pool.setUser("SA");
 		pool.setPassword("");
-		Resource resource = new Resource(null, "jdbc/DB", pool); //Argh! Null must be passed or it will not work!
+		new Resource(null, "jdbc/DB", pool); //Argh! Null must be passed or it will not work!
 	}
 }
