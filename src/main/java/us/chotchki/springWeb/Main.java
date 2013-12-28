@@ -65,6 +65,7 @@ public class Main {
 			pool.setUrl("jdbc:hsqldb:mem:mymemdb");
 		} else {
 			pool.setUrl("jdbc:hsqldb:file:" + dbDir + ";shutdown=true;hsqldb.default_table_type=cached");
+			System.out.print("Persisting the database\n");
 		}
 		pool.setUser("SA");
 		pool.setPassword("");
