@@ -36,13 +36,16 @@ public class Blog {
 	
 	@RequestMapping
 	public String index() {
-		return "redirect:/blog/page/0";
+		return "redirect:/blog/page/1";
 	}
 	
 	@RequestMapping(value = "/page/{number}")
 	public String showPage(@PathVariable int number, Model mod) {
 		List<Post> posts = postsService.getPostsByPage(number);
 		mod.addAttribute("posts", markdown.formatPosts(posts));
+		
+		mod.addAttribute("currentPage", number);
+		mod.addAttribute("totalPages", postsService.getPageCount());
 		return "index";
 	}
 	

@@ -15,11 +15,15 @@ public class PostsService {
 	private PostsDao postsDao = null;
 
 	public List<Post> getPostsByPage(int page) {
-		return postsDao.getPostsByPage(page * PostsDao.POSTS_PER_PAGE);
+		return postsDao.getPostsByPage((page - 1) * PostsDao.POSTS_PER_PAGE);
 	}
 	
 	public List<Post> getPostById(int id){
 		return postsDao.getPostById(id);
+	}
+	
+	public int getPageCount(){
+		return postsDao.getPageCount();
 	}
 
 	@Transactional

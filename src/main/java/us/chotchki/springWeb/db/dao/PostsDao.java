@@ -18,6 +18,9 @@ public interface PostsDao {
 	@Select("select id, published, title, content from posts where id = #{id}")
 	public List<Post> getPostById(int id);
 	
+	@Select("select GREATEST(CEILING(count(*) / " + POSTS_PER_PAGE + "),1) from posts")
+	public int getPageCount();
+	
 	@Insert("insert into posts (id, published, title, content) values (#{id}, #{published}, #{title}, #{content})")
 	@SelectKey(statement = "CALL IDENTITY()", before = false, keyProperty = "id", resultType = BigDecimal.class)
 	public int create(Post post);

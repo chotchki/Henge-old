@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class Index {	
 	@RequestMapping(value = "/")
 	public String index() {
-		return "forward:/blog/page/0";
+		return "forward:/blog/page/1";
 	}
 }
