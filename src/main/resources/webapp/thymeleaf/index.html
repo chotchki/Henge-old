@@ -25,7 +25,9 @@
 				<li th:class="${currentPage == 1}? 'active' : ''">
 					<a th:href="@{/blog/page/1}">1</a>
 				</li>
-				<li th:if="${currentPage gt 2}" class="disabled"><a>...</a></li>
+				<li th:if="${currentPage gt 3 and totalPages gt 3}" class="disabled">
+					<a>...</a>
+				</li>
 				<li th:if="${currentPage gt 2 and currentPage == totalPages and totalPages gt 3}">
 					<a th:text="${currentPage - 2}" th:href="@{/blog/page/} + ${currentPage - 2}"></a>
 				</li>
@@ -39,7 +41,9 @@
 				<li th:if="${currentPage lt totalPages - 1 and currentPage eq 1 and totalPages gt 3}">
 					<a th:text="${currentPage + 2}" th:href="@{/blog/page/} + ${currentPage + 2}"></a>
 				</li>
-				<li th:if="${currentPage lt totalPages - 1}" class="disabled"><a>...</a></li>
+				<li th:if="${currentPage lt totalPages - 2 and totalPages gt 3}" class="disabled">
+					<a>...</a>
+				</li>
 				<li>
 					<a th:text="${totalPages}" th:href="@{/blog/page/} + ${totalPages}"></a>
 				</li>
@@ -47,10 +51,7 @@
 					<a th:href="@{/blog/page/} + ${currentPage + 1}">&raquo;</a>
 				</li>
 			</ul>		
-		</div>
-		
-		
-		
+		</div>	
 	</div>
 </body>
-</html>
+</html> 
