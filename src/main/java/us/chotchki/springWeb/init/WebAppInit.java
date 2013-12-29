@@ -6,7 +6,7 @@ public class WebAppInit extends AbstractAnnotationConfigDispatcherServletInitial
 
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
-		return new Class[]{RootConfig.class};
+		return new Class[]{RootConfig.class, SecurityConfig.class};
 	}
 
 	@Override

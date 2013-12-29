@@ -42,6 +42,7 @@ public class FixedAnnotationConfig extends AnnotationConfiguration {
                 {
                     initializer = new ContainerInitializer(service, classes);
                     initializer.addApplicableTypeName(WebAppInit.class.getCanonicalName());
+                    initializer.addApplicableTypeName(SecurityWebApplicationInitializer.class.getCanonicalName());
 
                     //If we haven't already done so, we need to register a handler that will
                     //process the whole class hierarchy to satisfy the ServletContainerInitializer

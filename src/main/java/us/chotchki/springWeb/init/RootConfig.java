@@ -27,7 +27,6 @@ import com.googlecode.flyway.core.Flyway;
 		  @ComponentScan.Filter(value=Controller.class)
 		  })
 public class RootConfig {
-
 	@Bean
 	@Resource(name = "jdbc/DB")
 	public DataSource dataSource() {

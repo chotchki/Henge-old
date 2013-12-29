@@ -12,8 +12,8 @@
 
 		<jetty.version>9.1.0.v20131115</jetty.version>
 		<hsql.version>2.3.1</hsql.version>
-		<spring.version>3.2.5.RELEASE</spring.version>
-		<spring.sec.version>3.1.4.RELEASE</spring.sec.version>
+		<spring.version>4.0.0.RELEASE</spring.version>
+		<spring.sec.version>3.2.0.RELEASE</spring.sec.version>
 	</properties>
 	<build>
 		<plugins>
