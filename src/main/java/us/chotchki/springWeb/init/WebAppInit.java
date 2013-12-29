@@ -1,5 +1,8 @@
 package us.chotchki.springWeb.init;
 
+import javax.servlet.Filter;
+
+import org.eclipse.jetty.servlets.GzipFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 public class WebAppInit extends AbstractAnnotationConfigDispatcherServletInitializer  {
@@ -19,4 +22,8 @@ public class WebAppInit extends AbstractAnnotationConfigDispatcherServletInitial
 		return new String[]{"/"};
 	}
 
+	@Override
+	protected Filter[] getServletFilters() {
+		return new Filter[]{new GzipFilter()};
+	}
 }
