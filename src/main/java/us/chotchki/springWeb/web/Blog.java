@@ -51,9 +51,12 @@ public class Blog {
 	
 	@RequestMapping(value = "/post/{number}")
 	public String showPost(@PathVariable int number, Model mod) {
-		List<Post> posts = postsService.getPostById(number);
-		mod.addAttribute("posts", markdown.formatPosts(posts));
-		return "index";
+		Post post = postsService.getPostById(number);
+		
+		mod.addAttribute("postMarkdown", markdown.formatPost(post));
+		mod.addAttribute("post", post);
+		
+		return "viewPost";
 	}
 
 	@RequestMapping(value = "/new", method = RequestMethod.GET)
@@ -72,8 +75,7 @@ public class Blog {
 		
 		try {
 			post.setPublished(new Instant());
-			int id = postsService.create(post);
-			log.debug("id is {}", id);
+			postsService.create(post);
 		} catch (Exception e){
 			log.error("Had an error creating a new post", e);
 			redirectAttributes.addFlashAttribute("error", "Had an error creating a new post.");
@@ -92,5 +94,52 @@ public class Blog {
 		}
 		
 		return new ResponseEntity<String>(markdown.formatPost(post), HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/post/{number}/edit", method = RequestMethod.GET)
+	public String editPost(@PathVariable int number, Model mod) {
+		Post post = postsService.getPostById(number);
+		mod.addAttribute("post", post);
+		
+		return "postAuthoring";
+	}
+	
+	@RequestMapping(value = "/post/{number}/edit", method = RequestMethod.POST)
+	public String editPostHandler(@PathVariable int number, @Valid Post post, BindingResult rPost, RedirectAttributes redirectAttributes) {
+		if(rPost.hasErrors()) {
+			redirectAttributes.addFlashAttribute("error", rPost.getFieldError().getDefaultMessage());
+			redirectAttributes.addFlashAttribute("post", post);
+			return "redirect:/blog/post/" + number + "/edit";
+		}
+		
+		try {
+			Post oldPost = postsService.getPostById(number);
+			oldPost.setTitle(post.getTitle());
+			oldPost.setContent(post.getContent());
+			
+			postsService.update(oldPost);
+		} catch (Exception e){
+			log.error("Had an error creating a new post", e);
+			redirectAttributes.addFlashAttribute("error", "Had an error updating the post.");
+			redirectAttributes.addFlashAttribute("post", post);
+			return "redirect:/blog/new";
+		}
+		
+		redirectAttributes.addFlashAttribute("success", "Updated post " + post.getTitle());
+		return "redirect:/blog/post/" + number;
+	}
+	
+	@RequestMapping(value = "/post/{number}/delete", method = RequestMethod.POST)
+	public String editPostHandler(@PathVariable int number, RedirectAttributes redirectAttributes) {
+		try {
+			postsService.delete(number);
+		} catch (Exception e){
+			log.error("Had an error deleting post", e);
+			redirectAttributes.addFlashAttribute("error", "Had an error deleting the post.");
+			return "redirect:/blog/post" + number;
+		}
+		
+		redirectAttributes.addFlashAttribute("success", "Deleted post " + number);
+		return "redirect:/blog";
 	}
 }

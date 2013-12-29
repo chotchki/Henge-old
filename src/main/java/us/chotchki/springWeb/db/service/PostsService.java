@@ -18,7 +18,7 @@ public class PostsService {
 		return postsDao.getPostsByPage((page - 1) * PostsDao.POSTS_PER_PAGE);
 	}
 	
-	public List<Post> getPostById(int id){
+	public Post getPostById(int id){
 		return postsDao.getPostById(id);
 	}
 	
@@ -29,5 +29,15 @@ public class PostsService {
 	@Transactional
 	public int create(Post post) {
 		return postsDao.create(post);
+	}
+	
+	@Transactional
+	public void update(Post post){
+		postsDao.update(post);
+	}
+	
+	@Transactional
+	public void delete(int id){
+		postsDao.delete(id);
 	}
 }

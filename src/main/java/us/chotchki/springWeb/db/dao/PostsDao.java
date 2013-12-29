@@ -3,9 +3,11 @@ package us.chotchki.springWeb.db.dao;
 import java.math.BigDecimal;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectKey;
+import org.apache.ibatis.annotations.Update;
 
 import us.chotchki.springWeb.db.pojo.Post;
 
@@ -16,7 +18,7 @@ public interface PostsDao {
 	public List<Post> getPostsByPage(int offset);
 	
 	@Select("select id, published, title, content from posts where id = #{id}")
-	public List<Post> getPostById(int id);
+	public Post getPostById(int id);
 	
 	@Select("select GREATEST(CEILING(count(*) / " + POSTS_PER_PAGE + "),1) from posts")
 	public int getPageCount();
@@ -24,4 +26,14 @@ public interface PostsDao {
 	@Insert("insert into posts (id, published, title, content) values (#{id}, #{published}, #{title}, #{content})")
 	@SelectKey(statement = "CALL IDENTITY()", before = false, keyProperty = "id", resultType = BigDecimal.class)
 	public int create(Post post);
+	
+	@Update({"update posts",
+			 "set published = #{published},",
+			 "title = #{title},",
+			 "content = #{content}",
+			 "where id = #{id}"})
+	public void update(Post post);
+	
+	@Delete("delete from posts where id = #{id}")
+	public void delete(int id);
 }

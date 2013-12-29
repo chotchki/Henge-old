@@ -20,7 +20,7 @@
 	<div id="wrap">
 
 		<!--/* Fixed navbar */-->
-		<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+		<div class="navbar navbar-default navbar-fixed-top">
 			<div class="container">
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -44,13 +44,13 @@
 		<!--/* Notifications */-->
 		<div th:if="${success}" class="container">
 			<div class="alert alert-success alert-dismissable">
-				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
 				<p th:text="${success}"></p>
 			</div>
 		</div>
 		<div th:if="${error}" class="container">
 			<div class="alert alert-error alert-dismissable">
-				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
 				<p th:text="${error}"></p>
 			</div>
 		</div>
