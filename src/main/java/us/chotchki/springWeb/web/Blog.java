@@ -46,7 +46,7 @@ public class Blog {
 		
 		mod.addAttribute("currentPage", number);
 		mod.addAttribute("totalPages", postsService.getPageCount());
-		return "index";
+		return "blog/page";
 	}
 	
 	@RequestMapping(value = "/post/{number}")
@@ -56,13 +56,13 @@ public class Blog {
 		mod.addAttribute("postMarkdown", markdown.formatPost(post));
 		mod.addAttribute("post", post);
 		
-		return "viewPost";
+		return "blog/post";
 	}
 
 	@RequestMapping(value = "/new", method = RequestMethod.GET)
 	public String newPostEditor(Model mod) {
 		mod.addAttribute("post", new Post());
-		return "postAuthoring";
+		return "blog/edit";
 	}
 	
 	@RequestMapping(value = "/new", method = RequestMethod.POST)
@@ -101,7 +101,7 @@ public class Blog {
 		Post post = postsService.getPostById(number);
 		mod.addAttribute("post", post);
 		
-		return "postAuthoring";
+		return "blog/edit";
 	}
 	
 	@RequestMapping(value = "/post/{number}/edit", method = RequestMethod.POST)
