@@ -1,32 +1,22 @@
 package us.chotchki.springWeb.init;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletRegistration;
+import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-import org.springframework.web.WebApplicationInitializer;
-import org.springframework.web.context.ContextLoaderListener;
-import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
-import org.springframework.web.servlet.DispatcherServlet;
-
-public class WebAppInit implements WebApplicationInitializer {
+public class WebAppInit extends AbstractAnnotationConfigDispatcherServletInitializer  {
 
 	@Override
-	public void onStartup(ServletContext container) {
-		// Create the 'root' Spring application context
-		AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
-		rootContext.register(RootConfig.class);
+	protected Class<?>[] getRootConfigClasses() {
+		return new Class[]{RootConfig.class};
+	}
 
-		// Manage the lifecycle of the root application context
-		container.addListener(new ContextLoaderListener(rootContext));
+	@Override
+	protected Class<?>[] getServletConfigClasses() {
+		return new Class[]{WebConfig.class};
+	}
 
-		// Create the dispatcher servlet's Spring application context
-		AnnotationConfigWebApplicationContext dispatcherContext = new AnnotationConfigWebApplicationContext();
-		dispatcherContext.register(WebConfig.class);
-
-		// Register and map the dispatcher servlet
-		ServletRegistration.Dynamic dispatcher = container.addServlet("dispatcher", new DispatcherServlet(dispatcherContext));
-		dispatcher.setLoadOnStartup(1);
-		dispatcher.addMapping("/");
+	@Override
+	protected String[] getServletMappings() {
+		return new String[]{"/"};
 	}
 
 }
