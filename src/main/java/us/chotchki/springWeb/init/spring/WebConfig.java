@@ -17,6 +17,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/static/**").addResourceLocations("/static/");
 		registry.addResourceHandler("/vendor/**").addResourceLocations("/vendor/").setCachePeriod(60 * 60 * 24 *180);
-		registry.addResourceHandler("/favicon.ico").addResourceLocations("/resources/favicon.ico");
+		registry.addResourceHandler("/favicon.ico").addResourceLocations("/static/favicon.ico");
 	}
 }
