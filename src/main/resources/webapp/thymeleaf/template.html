@@ -12,9 +12,9 @@
 	<title>Test</title>
 
 	<!--/* Bootstrap core CSS */-->
-	<link href="/resources/bootstrap-3.0.3/bootstrap.min.css" rel="stylesheet" />
-	<link rel="stylesheet" href="/resources/font-awesome-4.0.3/css/font-awesome.min.css" />
-	<link href="/resources/css/site.css" rel="stylesheet" />
+	<link rel="stylesheet" th:href="@{/vendor/bootstrap-3.0.3/bootstrap.min.css}" />
+	<link rel="stylesheet" th:href="@{/vendor/font-awesome-4.0.3/css/font-awesome.min.css}" />
+	<link rel="stylesheet" th:href="@{/static/css/site.css}"  />
 </head>
 <body>
 	<!--/* Wrap all page content here */-->
@@ -30,7 +30,7 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<img src="/resources/img/atom_logo.svg" />
+					<img src="/static/img/atom_logo.svg" />
 				</div>
 				<div class="collapse navbar-collapse">
 					<ul class="nav navbar-nav">
@@ -77,8 +77,8 @@
     <!--/* Core JavaScript
     ==================================================
     Placed at the end of the document so the pages load faster */-->
-    <script src="/resources/jquery-2.0.3/jquery.min.js"></script>
-    <script src="/resources/bootstrap-3.0.3/bootstrap.min.js"></script>
+    <script src="/vendor/jquery-2.0.3/jquery.min.js"></script>
+    <script src="/vendor/bootstrap-3.0.3/bootstrap.min.js"></script>
     <div layout:fragment="js"></div>
 </body>
 </html>

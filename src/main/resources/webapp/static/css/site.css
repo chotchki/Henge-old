@@ -30,7 +30,7 @@ body {
 /* Background */
 body {
 	background-color: #cdd3df;
-	background-image: url('/resources/img/banner.jpeg');
+	background-image: url('/static/img/banner.jpeg');
 	background-repeat:no-repeat;
 	background-attachment:fixed;
 	background-position:center bottom; 
