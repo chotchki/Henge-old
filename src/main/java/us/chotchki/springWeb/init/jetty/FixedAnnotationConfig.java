@@ -1,4 +1,4 @@
-package us.chotchki.springWeb.init;
+package us.chotchki.springWeb.init.jetty;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +16,8 @@ import org.eclipse.jetty.util.ConcurrentHashSet;
 import org.eclipse.jetty.util.log.Log;
 import org.eclipse.jetty.util.log.Logger;
 import org.eclipse.jetty.webapp.WebAppContext;
+
+import us.chotchki.springWeb.init.spring.security.SecurityWebApplicationInitializer;
 
 public class FixedAnnotationConfig extends AnnotationConfiguration {
 	private static final Logger LOG = Log.getLogger(AnnotationConfiguration.class);

@@ -1,4 +1,4 @@
-package us.chotchki.springWeb.init;
+package us.chotchki.springWeb.init.spring.security;
 
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 

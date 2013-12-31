@@ -1,4 +1,4 @@
-package us.chotchki.springWeb.init;
+package us.chotchki.springWeb.init.spring;
 
 import nz.net.ultraq.thymeleaf.LayoutDialect;
 

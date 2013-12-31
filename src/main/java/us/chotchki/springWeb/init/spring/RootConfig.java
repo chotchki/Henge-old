@@ -1,4 +1,4 @@
-package us.chotchki.springWeb.init;
+package us.chotchki.springWeb.init.spring;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;

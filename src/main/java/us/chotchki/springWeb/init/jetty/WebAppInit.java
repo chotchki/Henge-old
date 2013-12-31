@@ -1,9 +1,13 @@
-package us.chotchki.springWeb.init;
+package us.chotchki.springWeb.init.jetty;
 
 import javax.servlet.Filter;
 
 import org.eclipse.jetty.servlets.GzipFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+
+import us.chotchki.springWeb.init.spring.RootConfig;
+import us.chotchki.springWeb.init.spring.WebConfig;
+import us.chotchki.springWeb.init.spring.security.SecurityConfig;
 
 public class WebAppInit extends AbstractAnnotationConfigDispatcherServletInitializer  {
 

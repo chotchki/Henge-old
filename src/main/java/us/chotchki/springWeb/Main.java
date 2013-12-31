@@ -16,7 +16,7 @@ import org.eclipse.jetty.webapp.WebAppContext;
 import org.hsqldb.jdbc.JDBCPool;
 import org.springframework.core.io.ClassPathResource;
 
-import us.chotchki.springWeb.init.FixedAnnotationConfig;
+import us.chotchki.springWeb.init.jetty.FixedAnnotationConfig;
 
 public class Main {
 	private static int httpPort = 9000;

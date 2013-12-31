@@ -1,4 +1,4 @@
-package us.chotchki.springWeb.init;
+package us.chotchki.springWeb.init.spring.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
