@@ -1,4 +1,4 @@
-package us.chotchki.springWeb.db.service;
+package us.chotchki.springWeb.service;
 
 import java.security.SecureRandom;
 

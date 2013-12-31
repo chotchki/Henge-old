@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import us.chotchki.springWeb.db.pojo.User;
-import us.chotchki.springWeb.db.service.TokenService;
+import us.chotchki.springWeb.service.TokenService;
 import us.chotchki.springWeb.web.pojo.Register;
 
 @Controller
