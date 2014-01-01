@@ -1,5 +1,7 @@
 package us.chotchki.springWeb.web;
 
+import java.util.Arrays;
+
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -22,9 +24,10 @@ public class Security {
 	private static final Logger log = LoggerFactory.getLogger(Security.class);
 	
 	@Autowired
-	private TokenService tokenService;
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
-	private PasswordEncoder encoder = new BCryptPasswordEncoder(16);
+	@Autowired
+	private TokenService tokenService;
 	
 	@RequestMapping(value="/login", method = RequestMethod.GET)
 	public String index() {
@@ -53,9 +56,9 @@ public class Security {
 		try {
 			User user = new User();
 			user.setUsername(register.getUser().getUsername());
-			user.setPassword(encoder.encode(register.getUser().getPassword()));
+			user.setPassword(bCryptPasswordEncoder.encode(register.getUser().getPassword()));
 			user.setEnabled(true);
-			
+			user.setAuthorities(Arrays.asList("ADMIN"));
 		} catch (Exception e){
 			log.error("Had an error creating the user", e);
 			redirectAttributes.addFlashAttribute("error", "Had an error creating the user.");

@@ -10,13 +10,15 @@ import us.chotchki.springWeb.db.pojo.User;
 public class Register {
 	@Valid
 	private User user = null;
+	
+	@NotEmpty(message="You must retype the password")
 	private String retypePassword = null;
 	
 	@NotEmpty(message="You must supply a token")
 	private String token = null;
 	
 	@AssertTrue(message="The retyped password must match the password field")
-	private boolean isValid() {
+	public boolean isValid() {
 		return retypePassword.equals(user.getPassword());
 	}
 	

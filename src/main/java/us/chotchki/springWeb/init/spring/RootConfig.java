@@ -15,6 +15,7 @@ import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import us.chotchki.springWeb.db.handlers.InstantTypeHandler;
 
@@ -63,5 +64,10 @@ public class RootConfig {
 		flyway.setDataSource(dataSource());
 		flyway.migrate();
 		return flyway;
+	}
+	
+	@Bean
+	public BCryptPasswordEncoder BCryptPasswordEncoder(){
+		return new BCryptPasswordEncoder(16);
 	}
 }

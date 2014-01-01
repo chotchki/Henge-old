@@ -53,15 +53,19 @@
 		
 		<!--/* Notifications */-->
 		<div th:if="${success}" class="container">
-			<div class="alert alert-success alert-dismissable">
-				<button type="button" class="close" data-dismiss="alert">&times;</button>
-				<p th:text="${success}"></p>
+			<div class="row">
+				<div class="alert alert-success alert-dismissable">
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+					<p th:text="${success}"></p>
+				</div>
 			</div>
 		</div>
 		<div th:if="${error}" class="container">
-			<div class="alert alert-error alert-dismissable">
-				<button type="button" class="close" data-dismiss="alert">&times;</button>
-				<p th:text="${error}"></p>
+			<div class="row">
+				<div class="alert alert-danger alert-dismissable">
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+					<p th:text="${error}"></p>
+				</div>
 			</div>
 		</div>
 
