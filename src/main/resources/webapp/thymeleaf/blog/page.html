@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en"
+	xmlns:sec="http://www.thymeleaf.org/extras/dialect"
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorator="template">
@@ -8,11 +9,11 @@
 </head>
 <body>
 	<div class="container" layout:fragment="content">
-		<div class="row">
+		<div class="row" sec:authorize="isAuthenticated()">
 			<a href="/blog/new" class="btn btn-primary btn-lg"><i class="fa fa-plus"></i> Create New Post</a>
 		</div>
 		
-		<hr />
+		<hr sec:authorize="isAuthenticated()" />
 		
 		<div class="row well blog-post" th:each="post : ${posts}" th:utext="${post}">
 		</div>
