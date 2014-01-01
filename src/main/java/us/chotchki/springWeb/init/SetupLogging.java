@@ -41,9 +41,9 @@ public class SetupLogging {
 		PatternLayoutEncoder ple = new PatternLayoutEncoder();
 		ple.setContext(rootContext);
 		ple.setPattern(pattern);
+		ple.start();
 		
 		c.setEncoder(ple);
-		ple.start();
 		c.start();
 		
 		rootLog.addAppender(c);

@@ -12,7 +12,7 @@ public class User {
 	@NotEmpty(message = "You must supply a username")
 	private String username = null;
 	
-	@Pattern(regexp="^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$")
+	@Pattern(regexp="^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$", message="Passwords must have a lower case letter, upper case letter, number and be 8 characters long.")
 	private String password = null;
 	
 	private boolean enabled = false;
