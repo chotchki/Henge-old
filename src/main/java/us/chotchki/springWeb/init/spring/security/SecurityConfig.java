@@ -45,10 +45,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth
         	.jdbcAuthentication()
         		.dataSource(dataSource)
-        		.and()
-            .inMemoryAuthentication()
-                .withUser("user").password("password").roles("USER")
-                .and()
-            .passwordEncoder(bCryptPasswordEncoder);
+        		.passwordEncoder(bCryptPasswordEncoder);
     }
 }
