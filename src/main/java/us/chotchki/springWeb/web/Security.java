@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import us.chotchki.springWeb.db.pojo.User;
+import us.chotchki.springWeb.db.service.UsersService;
 import us.chotchki.springWeb.service.TokenService;
 import us.chotchki.springWeb.web.pojo.Register;
 
@@ -27,6 +28,9 @@ public class Security {
 	
 	@Autowired
 	private TokenService tokenService;
+	
+	@Autowired
+	private UsersService usersService;
 	
 	@RequestMapping(value="/login", method = RequestMethod.GET)
 	public String index() {
@@ -58,6 +62,7 @@ public class Security {
 			user.setPassword(bCryptPasswordEncoder.encode(register.getUser().getPassword()));
 			user.setEnabled(true);
 			user.setAuthorities(Arrays.asList("ADMIN"));
+			usersService.create(user);
 		} catch (Exception e){
 			log.error("Had an error creating the user", e);
 			redirectAttributes.addFlashAttribute("error", "Had an error creating the user.");
