@@ -21,13 +21,12 @@ public class SetupLogging {
 	private final Logger rootLog;
 	
 	public SetupLogging(){
-		rootContext = (LoggerContext) LoggerFactory.getILoggerFactory();
 		rootLog = (Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
-	
-		//Disable the default setup
-		//rootLog.detachAndStopAllAppenders();
 		
-		//rootLog.setLevel(Level.DEBUG);
+		rootContext = rootLog.getLoggerContext();
+		rootContext.reset();
+		
+		rootLog.setLevel(Level.DEBUG);
 		
 		//Turn down certain logging
 		Logger jetty = (Logger) LoggerFactory.getLogger("org.eclipse.jetty");
