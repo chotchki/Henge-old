@@ -8,17 +8,19 @@
 	<title>View Post</title>
 </head>
 <body>
-	<div class="container" layout:fragment="content">
-		<div class="row" sec:authorize="isAuthenticated()">
-			<a th:href="@{/blog/post/} + ${post.id} + '/edit'" class="btn btn-default btn-lg pull-left"><i class="fa fa-edit"></i> Edit Post</a>
-			<form th:action="@{/blog/post/} + ${post.id} + '/delete'" method="POST" class="form-inline pull-right">
-				<button type="submit" class="btn btn-danger btn-lg"><i class="fa fa-trash-o"></i> Delete Post</button>
-			</form>
+	<div layout:fragment="content">
+		<div class="container">
+			<div class="row" sec:authorize="isAuthenticated()">
+				<a th:href="@{/blog/post/} + ${post.id} + '/edit'" class="btn btn-default btn-lg pull-left"><i class="fa fa-edit"></i> Edit Post</a>
+				<form th:action="@{/blog/post/} + ${post.id} + '/delete'" method="POST" class="form-inline pull-right">
+					<button type="submit" class="btn btn-danger btn-lg"><i class="fa fa-trash-o"></i> Delete Post</button>
+				</form>
+			</div>
+		
+			<hr sec:authorize="isAuthenticated()" />
+		
+			<div class="row well blog-post" th:utext="${postMarkdown}"></div>
 		</div>
-		
-		<hr sec:authorize="isAuthenticated()" />
-		
-		<div class="row well blog-post" th:utext="${postMarkdown}"></div>
 	</div>
 </body>
 </html> 

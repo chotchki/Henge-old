@@ -8,51 +8,53 @@
 	<title>Welcome!</title>
 </head>
 <body>
-	<div class="container" layout:fragment="content">
-		<div class="row" sec:authorize="isAuthenticated()">
-			<a href="/blog/new" class="btn btn-primary btn-lg"><i class="fa fa-plus"></i> Create New Post</a>
+	<div layout:fragment="content">
+		<div class="container">
+			<div class="row" sec:authorize="isAuthenticated()">
+				<a href="/blog/new" class="btn btn-primary btn-lg"><i class="fa fa-plus"></i> Create New Post</a>
+			</div>
+		
+			<hr sec:authorize="isAuthenticated()" />
+		
+			<div class="row well blog-post" th:each="post : ${posts}" th:utext="${post}">
+			</div>
+		
+			<div class="row" th:if="${totalPages gt 1}">
+				<ul class="pagination">
+					<li th:class="${currentPage == 1}? 'disabled' : ''">
+						<a th:href="@{/blog/page/} + ${currentPage - 1}">&laquo;</a>
+					</li>
+					<li th:class="${currentPage == 1}? 'active' : ''">
+						<a th:href="@{/blog/page/1}">1</a>
+					</li>
+					<li th:if="${currentPage gt 3 and totalPages gt 3}" class="disabled">
+						<a>...</a>
+					</li>
+					<li th:if="${currentPage gt 2 and currentPage == totalPages and totalPages gt 3}">
+						<a th:text="${currentPage - 2}" th:href="@{/blog/page/} + ${currentPage - 2}"></a>
+					</li>
+					<li th:if="${currentPage gt 2}"><a th:text="${currentPage - 1}" th:href="@{/blog/page/} + ${currentPage - 1}"></a></li>
+					<li th:if="${currentPage ne 1 and currentPage ne total}" class="active">
+						<a th:text="${currentPage}" th:href="@{/blog/page/} + ${currentPage}"></a>
+					</li>
+					<li th:if="${currentPage lt totalPages - 1}">
+						<a th:text="${currentPage + 1}" th:href="@{/blog/page/} + ${currentPage + 1}"></a>
+					</li>
+					<li th:if="${currentPage lt totalPages - 1 and currentPage eq 1 and totalPages gt 3}">
+						<a th:text="${currentPage + 2}" th:href="@{/blog/page/} + ${currentPage + 2}"></a>
+					</li>
+					<li th:if="${currentPage lt totalPages - 2 and totalPages gt 3}" class="disabled">
+						<a>...</a>
+					</li>
+					<li>
+						<a th:text="${totalPages}" th:href="@{/blog/page/} + ${totalPages}"></a>
+					</li>
+					<li th:class="${currentPage lt totalPages}? '' : 'disabled'">
+						<a th:href="@{/blog/page/} + ${currentPage + 1}">&raquo;</a>
+					</li>
+				</ul>		
+			</div>	
 		</div>
-		
-		<hr sec:authorize="isAuthenticated()" />
-		
-		<div class="row well blog-post" th:each="post : ${posts}" th:utext="${post}">
-		</div>
-		
-		<div class="row" th:if="${totalPages gt 1}">
-			<ul class="pagination">
-				<li th:class="${currentPage == 1}? 'disabled' : ''">
-					<a th:href="@{/blog/page/} + ${currentPage - 1}">&laquo;</a>
-				</li>
-				<li th:class="${currentPage == 1}? 'active' : ''">
-					<a th:href="@{/blog/page/1}">1</a>
-				</li>
-				<li th:if="${currentPage gt 3 and totalPages gt 3}" class="disabled">
-					<a>...</a>
-				</li>
-				<li th:if="${currentPage gt 2 and currentPage == totalPages and totalPages gt 3}">
-					<a th:text="${currentPage - 2}" th:href="@{/blog/page/} + ${currentPage - 2}"></a>
-				</li>
-				<li th:if="${currentPage gt 2}"><a th:text="${currentPage - 1}" th:href="@{/blog/page/} + ${currentPage - 1}"></a></li>
-				<li th:if="${currentPage ne 1 and currentPage ne total}" class="active">
-					<a th:text="${currentPage}" th:href="@{/blog/page/} + ${currentPage}"></a>
-				</li>
-				<li th:if="${currentPage lt totalPages - 1}">
-					<a th:text="${currentPage + 1}" th:href="@{/blog/page/} + ${currentPage + 1}"></a>
-				</li>
-				<li th:if="${currentPage lt totalPages - 1 and currentPage eq 1 and totalPages gt 3}">
-					<a th:text="${currentPage + 2}" th:href="@{/blog/page/} + ${currentPage + 2}"></a>
-				</li>
-				<li th:if="${currentPage lt totalPages - 2 and totalPages gt 3}" class="disabled">
-					<a>...</a>
-				</li>
-				<li>
-					<a th:text="${totalPages}" th:href="@{/blog/page/} + ${totalPages}"></a>
-				</li>
-				<li th:class="${currentPage lt totalPages}? '' : 'disabled'">
-					<a th:href="@{/blog/page/} + ${currentPage + 1}">&raquo;</a>
-				</li>
-			</ul>		
-		</div>	
 	</div>
 </body>
 </html> 
