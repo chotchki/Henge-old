@@ -27,6 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	        .authorizeRequests() 
 	        	.antMatchers("/favicon.ico", "/static/**", "/vendor/**").permitAll()
 	        	.antMatchers("/login", "/register").permitAll()
+	        	.antMatchers("/blog/**/edit").authenticated()
 	        	.antMatchers(HttpMethod.POST, "/blog", "/blog/**").authenticated()
 	        	
 	        	//Catch alls, GETs are allowed, POSTs are denied
