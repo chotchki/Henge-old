@@ -19,6 +19,7 @@
 	<link rel="stylesheet" th:href="@{/vendor/bootstrap-3.0.3/bootstrap.min.css}" />
 	<link rel="stylesheet" th:href="@{/vendor/font-awesome-4.0.3/css/font-awesome.min.css}" />
 	<link rel="stylesheet" th:href="@{/static/css/site.css}"  />
+	<link layout:fragment="css" th:remove="tag"></link>
 </head>
 <body>
 	<!--/* Wrap all page content here */-->
@@ -38,10 +39,10 @@
 						<img th:src="@{/static/img/atom_logo.svg}" />
 					</a>
 				</div>
-				<div class="collapse navbar-collapse">
+				<div class="collapse navbar-collapse" id="topNavBar">
 					<ul class="nav navbar-nav">
-						<li class="active"><a th:href="@{/}">Blog</a></li>
-						<li><a href="/photos">Photos</a></li>
+						<li><a th:href="@{/}">Blog</a></li>
+						<li><a th:href="@{/photos}">Photos</a></li>
 					</ul>
 					
 					<ul class="nav navbar-nav pull-right">
@@ -87,6 +88,7 @@
     <script th:src="@{/vendor/jquery-2.0.3/jquery.min.js}"></script>
     <script th:src="@{/vendor/bootstrap-3.0.3/bootstrap.min.js}"></script>
     <script th:src="@{/static/js/anticsrf.js}"></script>
+    <script th:src="@{/static/js/topNavBar.js}"></script>
     <div layout:fragment="js" th:remove="tag"></div>
 </body>
 </html>

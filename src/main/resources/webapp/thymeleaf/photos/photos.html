@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en"
+	xmlns:sec="http://www.thymeleaf.org/extras/dialect"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="template">
+<head>
+	<title>Photos</title>
+	
+	<link layout:fragment="css">
+		<link rel="stylesheet" th:href="@{/static/css/photos.css}" />
+	</link>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="container">
+			<div class="row">
+				<div class="navbar">
+					<div class="container">
+						<ol class="breadcrumb">
+							<li><a href="@{/photos">Photos</a></li>
+							<li><a href="#">Library</a></li>
+							<li class="active">Data</li>
+						</ol>
+						<ul class="nav navbar-nav navbar-right">
+							<li><a href="/blog/new" class="btn btn-success"><i class="fa fa-plus"></i> Create Album</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>	
+		</div>
+	</div>
+</body>
+</html>
