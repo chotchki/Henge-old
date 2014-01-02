@@ -8,7 +8,9 @@ import org.joda.time.Instant;
 
 public class Post {
 	private BigDecimal id = null;
-	private Instant published = null;
+	
+	@NotNull
+	private Instant published = new Instant();
 	
 	@NotNull
 	private String title = null;

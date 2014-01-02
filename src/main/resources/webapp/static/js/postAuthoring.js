@@ -21,4 +21,11 @@ $('input[type=text],textarea').each(function() {
 
 $('textarea').autosize();
 
-preview();
+$('#dtp').datetimepicker({
+	icons: {
+		time: "fa fa-clock-o",
+		date: "fa fa-calendar",
+		up: "fa fa-arrow-up",
+		down: "fa fa-arrow-down"
+	}
+});
