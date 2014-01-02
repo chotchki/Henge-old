@@ -15,7 +15,7 @@ import us.chotchki.springWeb.db.pojo.Post;
 @Service
 public class Markdown {
 	@Autowired
-	private Time time = null;
+	private TimeFormatter time = null;
 	
 	private PegDownProcessor pegDown = new PegDownProcessor(Extensions.ALL);
 	

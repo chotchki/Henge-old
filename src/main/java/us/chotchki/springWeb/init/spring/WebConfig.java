@@ -3,6 +3,8 @@ package us.chotchki.springWeb.init.spring;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.format.FormatterRegistry;
+import org.springframework.format.datetime.joda.JodaTimeFormatterRegistrar;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -19,4 +21,11 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 		registry.addResourceHandler("/vendor/**").addResourceLocations("/vendor/").setCachePeriod(60 * 60 * 24 *180);
 		registry.addResourceHandler("/favicon.ico").addResourceLocations("/static/favicon.ico");
 	}
+	
+    @Override
+	public void addFormatters(FormatterRegistry registry) {
+        JodaTimeFormatterRegistrar j = new JodaTimeFormatterRegistrar();
+        j.setUseIsoFormat(true);
+        j.registerFormatters(registry);
+    }    
 }

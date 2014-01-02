@@ -11,7 +11,7 @@ import org.thymeleaf.context.IWebContext;
 import org.thymeleaf.dialect.AbstractDialect;
 import org.thymeleaf.dialect.IExpressionEnhancingDialect;
 
-import us.chotchki.springWeb.service.Time;
+import us.chotchki.springWeb.service.TimeFormatter;
 
 /**
  * Class inspired by here: https://github.com/tswcode/thymeleaf-joda-dialect/blob/master/src/main/java/de/tswco/thymeleaf/joda/JodaDialect.java
@@ -24,7 +24,7 @@ public class TimeDialect extends AbstractDialect implements IExpressionEnhancing
     public static final String JODA_EXPRESSION_OBJECT_NAME = "time";
     
     @Autowired
-    private Time time;
+    private TimeFormatter time;
 
 	@Override
 	public String getPrefix() {

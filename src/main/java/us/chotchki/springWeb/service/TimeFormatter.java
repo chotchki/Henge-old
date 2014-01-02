@@ -8,7 +8,7 @@ import org.joda.time.format.DateTimeFormatterBuilder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class Time {
+public class TimeFormatter {
 	private DateTimeFormatter formatter = new DateTimeFormatterBuilder()
     .appendMonthOfYearText()
     .appendLiteral(' ')
