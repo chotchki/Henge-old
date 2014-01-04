@@ -27,7 +27,7 @@
 					<div class="form-group">
 						<label for="idtp">Publish Date</label>
 						<div class='input-group date' id='dtp'>
-							<input class="form-control" type="text" id="idtp" name="published" th:value="${post.published}"/>
+							<input class="form-control" data-format="YYYY-MM-DDTHH:mm:ssZZ" type="text" id="idtp" name="published" th:value="${post.published}"/>
 							<span class="input-group-addon"><span data-icon-element="" class="fa fa-calendar"></span></span>
 						</div>
 					</div>
