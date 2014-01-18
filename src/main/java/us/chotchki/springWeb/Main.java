@@ -1,21 +1,23 @@
 package us.chotchki.springWeb;
 
+import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map.Entry;
+import java.util.Properties;
 
 import javax.naming.NamingException;
 
 import org.eclipse.jetty.plus.jndi.Resource;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.handler.HandlerCollection;
-import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.webapp.Configuration;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.hsqldb.jdbc.JDBCPool;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 
+import us.chotchki.springWeb.init.Config;
 import us.chotchki.springWeb.init.SetupLogging;
 import us.chotchki.springWeb.init.jetty.FixedAnnotationConfig;
 
@@ -23,54 +25,62 @@ public class Main {
 	private static int httpPort = 9000;
 
 	public static void main(String[] args) {
+		
 		SetupLogging sl = new SetupLogging();
 		sl.startConsole();
+		
+		Logger mainLog = LoggerFactory.getLogger(Main.class);
+		if(args.length != 1){
+			mainLog.error("Data directory was not supplied.");
+			return;
+		}
+		
+		File dataDir = new File(args[0]);
+		if(!dataDir.exists()){
+			mainLog.error("The data directory {} does not exist", dataDir.getPath());
+			return;
+		}
+		
+		Config conf;
+		try {
+			conf = new Config(dataDir);
+		} catch (Exception e1) {
+			mainLog.error("Unable to start up due to an error", e1);
+			return;
+		}
+		
+		sl.startFile(conf.getParentPath());
 		
 		// Setup Jetty
 		Server server = new Server(httpPort);
 
 		try {
-			server.setHandler(createHandlers());
+			server.setHandler(createHandlers(conf.getSettings()));
 			server.setStopAtShutdown(true);
-			setupDb(server);
+			setupDb(conf.getParentPath() + File.separator + "db");
 			
 			server.start();
 			server.join();
 		} catch (Exception e) {
-			e.printStackTrace();
+			mainLog.error("Encountered an error", e);
 		}
 	}
 
-	private static Handler createHandlers() throws IOException, NamingException {
+	private static Handler createHandlers(Properties settings) throws IOException, NamingException {
 		WebAppContext _ctx = new WebAppContext();
 		_ctx.setContextPath("/");
 		_ctx.setResourceBase(new ClassPathResource("webapp").getURI().toString());
-		_ctx.setConfigurations(new Configuration[] { new FixedAnnotationConfig() });
+		_ctx.setConfigurations(new Configuration[] { new FixedAnnotationConfig()});
 		
-		
-		List<Handler> _handlers = new ArrayList<Handler>();
-
-		_handlers.add(_ctx);
-
-		HandlerList _contexts = new HandlerList();
-		_contexts.setHandlers(_handlers.toArray(new Handler[0]));
-
-		HandlerCollection _result = new HandlerCollection();
-		_result.setHandlers(new Handler[] { _contexts });
-
-		return _result;
+		for(Entry<Object, Object> e : settings.entrySet()){
+			_ctx.setInitParameter((String) e.getKey(), (String) e.getValue());
+		}
+		return _ctx;
 	}
 	
-	private static void setupDb(Object scope) throws NamingException {
+	private static void setupDb(String dbDir) throws NamingException {
 		JDBCPool pool = new JDBCPool();
-		
-		String dbDir = System.getProperty("db");
-		if(dbDir == null) {
-			pool.setUrl("jdbc:hsqldb:mem:mymemdb");
-		} else {
-			pool.setUrl("jdbc:hsqldb:file:" + dbDir + ";shutdown=true;hsqldb.default_table_type=cached");
-			System.out.print("Persisting the database\n");
-		}
+		pool.setUrl("jdbc:hsqldb:file:" + dbDir + File.separator + "db" + ";shutdown=true;hsqldb.default_table_type=cached");
 		pool.setUser("SA");
 		pool.setPassword("");
 		new Resource(null, "jdbc/DB", pool); //Argh! Null must be passed or it will not work!
