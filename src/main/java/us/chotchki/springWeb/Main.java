@@ -2,6 +2,7 @@ package us.chotchki.springWeb;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.KeyStore;
 import java.util.Map.Entry;
 import java.util.Properties;
 
@@ -10,6 +11,8 @@ import javax.naming.NamingException;
 import org.eclipse.jetty.plus.jndi.Resource;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.spdy.server.http.HTTPSPDYServerConnector;
+import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.eclipse.jetty.webapp.Configuration;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.hsqldb.jdbc.JDBCPool;
@@ -18,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 
 import us.chotchki.springWeb.init.Config;
+import us.chotchki.springWeb.init.Config.Keys;
 import us.chotchki.springWeb.init.SetupLogging;
 import us.chotchki.springWeb.init.jetty.FixedAnnotationConfig;
 
@@ -58,6 +62,19 @@ public class Main {
 			server.setHandler(createHandlers(conf.getSettings()));
 			server.setStopAtShutdown(true);
 			setupDb(conf.getParentPath() + File.separator + "db");
+		
+			KeyStore ks = conf.getKeyStore();
+			if(ks != null){
+				SslContextFactory scf = new SslContextFactory();
+				scf.setKeyStore(ks);
+				scf.setCertAlias("jetty");
+				scf.setIncludeProtocols("SSLv3","TLSv1","TLSv1.1", "TLSv1.2");
+				scf.setKeyStorePassword(conf.getSettings().getProperty(Keys.password.toString()));
+				
+				HTTPSPDYServerConnector hssc = new HTTPSPDYServerConnector(server, scf);
+				hssc.setPort(9443);
+				server.addConnector(hssc);
+			}
 			
 			server.start();
 			server.join();

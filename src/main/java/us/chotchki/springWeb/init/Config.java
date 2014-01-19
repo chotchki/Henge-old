@@ -51,7 +51,7 @@ public class Config {
 			keyStore.load(fis, password.toCharArray());
 		} catch (IOException | NoSuchAlgorithmException | CertificateException e) {
 			keyStore = null;
-			log.error("Had an error loading the keystore {}, ssl is disabled", kPath);
+			log.error("Had an error loading the keystore, ssl is disabled", e);
 			
 			if(settings.containsKey(Keys.forceSSL.toString())){
 				log.error("Force SSL requested, stopping startup");
