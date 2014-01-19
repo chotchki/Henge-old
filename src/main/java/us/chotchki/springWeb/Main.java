@@ -72,6 +72,7 @@ public class Main {
 				scf.setKeyStore(ks);
 				scf.setCertAlias("jetty");
 				scf.addExcludeCipherSuites(".*_DHE_.*");
+				scf.setSessionCachingEnabled(true);
 				scf.setIncludeProtocols("SSLv3","TLSv1","TLSv1.1", "TLSv1.2");
 				scf.setKeyStorePassword(conf.getSettings().getProperty(Keys.password.toString()));
 				
