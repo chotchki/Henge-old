@@ -33,8 +33,8 @@ public class SetupLogging {
 		rootLog.setLevel(Level.DEBUG);
 		
 		//Turn down certain logging
-		//Logger jetty = (Logger) LoggerFactory.getLogger("org.eclipse.jetty");
-		//jetty.setLevel(Level.INFO);
+		Logger jetty = (Logger) LoggerFactory.getLogger("org.eclipse.jetty");
+		jetty.setLevel(Level.INFO);
 	}
 	
 	public void startConsole(){
