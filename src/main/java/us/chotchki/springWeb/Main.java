@@ -9,7 +9,10 @@ import java.util.Properties;
 import javax.naming.NamingException;
 
 import org.eclipse.jetty.plus.jndi.Resource;
+import org.eclipse.jetty.server.ConnectionFactory;
+import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Handler;
+import org.eclipse.jetty.server.HttpConnectionFactory;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.spdy.server.http.HTTPSPDYServerConnector;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
@@ -75,6 +78,15 @@ public class Main {
 				HTTPSPDYServerConnector hssc = new HTTPSPDYServerConnector(server, scf);
 				hssc.setPort(9443);
 				server.addConnector(hssc);
+			}
+			
+			//Disable Server Signature
+			for(Connector y : server.getConnectors()) {
+			    for(ConnectionFactory x  : y.getConnectionFactories()) {
+			        if(x instanceof HttpConnectionFactory) {
+			            ((HttpConnectionFactory)x).getHttpConfiguration().setSendServerVersion(false);
+			        }
+			    }
 			}
 			
 			server.start();
