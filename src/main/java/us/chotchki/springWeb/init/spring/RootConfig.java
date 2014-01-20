@@ -4,18 +4,21 @@ import javax.annotation.Resource;
 import javax.sql.DataSource;
 
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.joda.time.Duration;
 import org.joda.time.Instant;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import us.chotchki.springWeb.db.handlers.InstantTypeHandler;
 
@@ -28,6 +31,8 @@ import com.googlecode.flyway.core.Flyway;
 		  @ComponentScan.Filter(value=Controller.class)
 		  })
 public class RootConfig {
+	private static final Logger log = LoggerFactory.getLogger(RootConfig.class);
+	
 	@Bean
 	@Resource(name = "jdbc/DB")
 	public DataSource dataSource() {
@@ -66,8 +71,26 @@ public class RootConfig {
 		return flyway;
 	}
 	
+	/**
+	 * Increases Bcrypt rounds until it hits 0.5 seconds
+	 * @return
+	 * @throws Exception 
+	 */
 	@Bean
-	public BCryptPasswordEncoder BCryptPasswordEncoder(){
-		return new BCryptPasswordEncoder(16);
+	public BCryptPasswordEncoder BCryptPasswordEncoder() throws Exception{
+		BCryptPasswordEncoder b;
+		for(int i = 10; i < 32; i++){
+			b = new BCryptPasswordEncoder(i);
+			Instant start = new Instant();
+			b.encode("password");
+			Instant end = new Instant();
+			
+			Duration dur = new Duration(start, end);
+			if(dur.isLongerThan(Duration.millis(400))){
+				log.info("Bcrypt rounds set to: {}", i);
+				return b;
+			}
+		}
+		throw new Exception("Bcrypt cannot be setup in a reasonable number of rounds");
 	}
 }
