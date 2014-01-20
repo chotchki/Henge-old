@@ -36,6 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	            .and()
 	        .formLogin()
 	        	.loginPage("/login")
+	        	.failureUrl("/login/error")
 	        	.and()
 	        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
 	        	.and();

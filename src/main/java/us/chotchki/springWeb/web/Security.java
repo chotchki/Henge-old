@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -34,6 +35,12 @@ public class Security {
 	
 	@RequestMapping(value="/login", method = RequestMethod.GET)
 	public String index() {
+		return "security/login";
+	}
+	
+	@RequestMapping(value="/login/error", method = RequestMethod.GET)
+	public String indexError(Model mod) {
+		mod.addAttribute("error", "Unable to login, please try again.");
 		return "security/login";
 	}
 	
