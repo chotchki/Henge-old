@@ -44,6 +44,7 @@ public class Config {
 		} catch (IOException e) {
 			settings.clear();
 		}
+		settings.setProperty(Keys.dataPath.toString(), parentPath.getPath());
 		
 		File kPath = new File(parentPath.getPath() + File.separator + "keystore.jks");
 		try(FileInputStream fis = new FileInputStream(kPath)){
@@ -83,6 +84,7 @@ public class Config {
 	}
 	
 	public enum Keys {
+		dataPath, //Not set via properties, it is the command line param
 		password,
 		forceSSL,
 		googleApiKey
