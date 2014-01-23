@@ -27,5 +27,5 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         JodaTimeFormatterRegistrar j = new JodaTimeFormatterRegistrar();
         j.setUseIsoFormat(true);
         j.registerFormatters(registry);
-    }    
+    }
 }

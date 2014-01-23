@@ -87,6 +87,7 @@ public class Config {
 		dataPath, //Not set via properties, it is the command line param
 		password,
 		forceSSL,
+		publicSslPort, //So that redirects to https will work
 		googleApiKey
 	}
 }

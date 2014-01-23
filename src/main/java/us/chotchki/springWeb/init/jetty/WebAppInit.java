@@ -8,6 +8,7 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 import us.chotchki.springWeb.init.spring.RootConfig;
 import us.chotchki.springWeb.init.spring.WebConfig;
 import us.chotchki.springWeb.init.spring.security.SecurityConfig;
+import us.chotchki.springWeb.utility.SslFilter;
 
 public class WebAppInit extends AbstractAnnotationConfigDispatcherServletInitializer  {
 
@@ -28,6 +29,6 @@ public class WebAppInit extends AbstractAnnotationConfigDispatcherServletInitial
 
 	@Override
 	protected Filter[] getServletFilters() {
-		return new Filter[]{new GzipFilter()};
+		return new Filter[]{new GzipFilter(), new SslFilter()};
 	}
 }
