@@ -3,10 +3,15 @@ package us.chotchki.springWeb;
 import java.io.File;
 import java.io.IOException;
 import java.security.KeyStore;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 
 import javax.naming.NamingException;
+import javax.servlet.SessionTrackingMode;
 
 import org.eclipse.jetty.plus.jndi.Resource;
 import org.eclipse.jetty.server.ConnectionFactory;
@@ -14,7 +19,12 @@ import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.HttpConnectionFactory;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.session.HashSessionManager;
+import org.eclipse.jetty.server.session.SessionHandler;
+import org.eclipse.jetty.spdy.api.SPDY;
 import org.eclipse.jetty.spdy.server.http.HTTPSPDYServerConnector;
+import org.eclipse.jetty.spdy.server.http.PushStrategy;
+import org.eclipse.jetty.spdy.server.http.ReferrerPushStrategy;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.eclipse.jetty.webapp.Configuration;
 import org.eclipse.jetty.webapp.WebAppContext;
@@ -76,8 +86,15 @@ public class Main {
 				scf.setIncludeProtocols("TLSv1","TLSv1.1", "TLSv1.2");
 				scf.setKeyStorePassword(conf.getSettings().getProperty(Keys.password.toString()));
 				
-				HTTPSPDYServerConnector hssc = new HTTPSPDYServerConnector(server, scf);
+				//Setup auto push!
+				Map<Short, PushStrategy> mp = new HashMap<Short, PushStrategy>();
+				ReferrerPushStrategy rps = new ReferrerPushStrategy();
+				mp.put(SPDY.V2, rps);
+				mp.put(SPDY.V3, rps);
+				
+				HTTPSPDYServerConnector hssc = new HTTPSPDYServerConnector(server, scf, mp);
 				hssc.setPort(9443);
+				
 				server.addConnector(hssc);
 			}
 			
@@ -106,6 +123,17 @@ public class Main {
 		for(Entry<Object, Object> e : settings.entrySet()){
 			_ctx.setInitParameter((String) e.getKey(), (String) e.getValue());
 		}
+		
+		//Lock down the session cookie
+		SessionHandler sh = _ctx.getSessionHandler();
+		HashSessionManager hsm = new HashSessionManager();
+		hsm.setHttpOnly(true);
+		hsm.setMaxInactiveInterval(60 * 60); //Give me an hour
+		hsm.setSecureRequestOnly(true);
+		hsm.setSessionTrackingModes(new HashSet<SessionTrackingMode>(Arrays.asList(SessionTrackingMode.COOKIE)));
+		hsm.setSessionCookie("c");
+		sh.setSessionManager(hsm);
+		
 		return _ctx;
 	}
 	
