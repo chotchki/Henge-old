@@ -17,9 +17,11 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	// Maps resources path to webapp/resources
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/static/**").addResourceLocations("/static/");
-		registry.addResourceHandler("/vendor/**").addResourceLocations("/vendor/").setCachePeriod(60 * 60 * 24 *180);
+		registry.addResourceHandler("/static/css/**").addResourceLocations("/static/css/");
+		registry.addResourceHandler("/static/img/**").addResourceLocations("/static/img/").setCachePeriod(60 * 60 * 24 *180);
+		registry.addResourceHandler("/static/js/**").addResourceLocations("/static/js/");
 		registry.addResourceHandler("/favicon.ico").addResourceLocations("/static/favicon.ico");
+		registry.addResourceHandler("/vendor/**").addResourceLocations("/vendor/").setCachePeriod(60 * 60 * 24 *180);
 	}
 	
     @Override
