@@ -87,12 +87,12 @@ public class Main {
 				scf.setKeyStorePassword(conf.getSettings().getProperty(Keys.password.toString()));
 				
 				//Setup auto push!
-				Map<Short, PushStrategy> mp = new HashMap<Short, PushStrategy>();
-				ReferrerPushStrategy rps = new ReferrerPushStrategy();
-				mp.put(SPDY.V2, rps);
-				mp.put(SPDY.V3, rps);
+				//Map<Short, PushStrategy> mp = new HashMap<Short, PushStrategy>();
+				//ReferrerPushStrategy rps = new ReferrerPushStrategy();
+				//mp.put(SPDY.V2, rps);
+				//mp.put(SPDY.V3, rps);
 				
-				HTTPSPDYServerConnector hssc = new HTTPSPDYServerConnector(server, scf, mp);
+				HTTPSPDYServerConnector hssc = new HTTPSPDYServerConnector(server, scf);
 				hssc.setPort(9443);
 				
 				server.addConnector(hssc);
