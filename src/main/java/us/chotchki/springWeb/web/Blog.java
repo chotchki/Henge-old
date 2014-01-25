@@ -74,7 +74,6 @@ public class Blog {
 		}
 		
 		try {
-			post.setPublished(new DateTime());
 			postsService.create(post);
 		} catch (Exception e){
 			log.error("Had an error creating a new post", e);
@@ -116,6 +115,7 @@ public class Blog {
 			Post oldPost = postsService.getPostById(number);
 			oldPost.setTitle(post.getTitle());
 			oldPost.setContent(post.getContent());
+			oldPost.setPublished(post.getPublished());
 			
 			postsService.update(oldPost);
 		} catch (Exception e){
