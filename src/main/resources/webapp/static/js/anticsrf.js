@@ -8,5 +8,10 @@
 		xhr.setRequestHeader(header, token);
 	});
 	
-	$("form[method='post']").append('<input type="hidden" name="' + param +'" value="' + token + '" />');
+	$(function(){
+		var _t = token;
+		var _p = param
+		$("form[method='post']").append('<input type="hidden" name="' + _p +'" value="' + _t + '" />');
+	});
+	
 })();
