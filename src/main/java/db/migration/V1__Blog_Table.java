@@ -3,7 +3,6 @@ package db.migration;
 import db.Migration;
 
 public class V1__Blog_Table extends Migration {
-
 	@Override
 	public String[] getSQLs() {
 		return new String[] {"CREATE TABLE Posts ("
