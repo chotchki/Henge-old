@@ -4,6 +4,7 @@ import javax.annotation.Resource;
 import javax.sql.DataSource;
 
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.joda.time.DateTime;
 import org.joda.time.Duration;
 import org.joda.time.Instant;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import us.chotchki.springWeb.db.handlers.DateTimeTypeHandler;
 import us.chotchki.springWeb.db.handlers.InstantTypeHandler;
 
 import com.googlecode.flyway.core.Flyway;
@@ -51,6 +53,11 @@ public class RootConfig {
 	public InstantTypeHandler instantTypeHandler(){
 		return new InstantTypeHandler();
 	}
+	
+	@Bean
+	public DateTimeTypeHandler dateTimeTypeHandler(){
+		return new DateTimeTypeHandler();
+	}
 
 	@Bean
 	public SqlSessionFactory sqlSessionFactory() throws Exception {
@@ -60,6 +67,8 @@ public class RootConfig {
 		
 		ssf.getConfiguration().getTypeHandlerRegistry().register(Instant.class, instantTypeHandler());
 		ssf.getConfiguration().getTypeHandlerRegistry().register(Instant.class, null, instantTypeHandler());
+		ssf.getConfiguration().getTypeHandlerRegistry().register(DateTime.class, dateTimeTypeHandler());
+		ssf.getConfiguration().getTypeHandlerRegistry().register(DateTime.class, null, dateTimeTypeHandler());
 		return ssf;
 	}
 

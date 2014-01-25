@@ -2,7 +2,6 @@ package us.chotchki.springWeb.service;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
-import org.joda.time.Instant;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.DateTimeFormatterBuilder;
 import org.springframework.stereotype.Service;
@@ -27,8 +26,8 @@ public class TimeFormatter {
 	 * @param instant
 	 * @return
 	 */
-	public String format(Instant instant) {
-		DateTime dt = instant.toDateTime(DateTimeZone.forID("America/New_York"));
+	public String format(DateTime timestamp) {
+		DateTime dt = timestamp.toDateTime(DateTimeZone.forID("America/New_York"));
 		return formatter.print(dt);
 	}
 }

@@ -4,13 +4,13 @@ import java.math.BigDecimal;
 
 import javax.validation.constraints.NotNull;
 
-import org.joda.time.Instant;
+import org.joda.time.DateTime;
 
 public class Post {
 	private BigDecimal id = null;
 	
 	@NotNull
-	private Instant published = new Instant();
+	private DateTime published = new DateTime();
 	
 	@NotNull
 	private String title = null;
@@ -24,10 +24,10 @@ public class Post {
 	public void setId(BigDecimal id) {
 		this.id = id;
 	}
-	public Instant getPublished() {
+	public DateTime getPublished() {
 		return published;
 	}
-	public void setPublished(Instant published) {
+	public void setPublished(DateTime published) {
 		this.published = published;
 	}
 	public String getTitle() {

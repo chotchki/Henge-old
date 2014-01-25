@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.joda.time.Instant;
+import org.joda.time.DateTime;
 import org.pegdown.Extensions;
 import org.pegdown.PegDownProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,9 +42,9 @@ public class Markdown {
 		markedUp.append("[" + postTitle + "](" + postUrl + ")\n");
 		markedUp.append("========\n");
 		
-		Instant postDate = post.getPublished();
+		DateTime postDate = post.getPublished();
 		if(postDate == null) {
-			postDate = new Instant();
+			postDate = new DateTime();
 		}
 		markedUp.append("*" + time.format(postDate) + "*\n");
 		markedUp.append("<hr />\n");

@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.joda.time.Instant;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,7 +74,7 @@ public class Blog {
 		}
 		
 		try {
-			post.setPublished(new Instant());
+			post.setPublished(new DateTime());
 			postsService.create(post);
 		} catch (Exception e){
 			log.error("Had an error creating a new post", e);
