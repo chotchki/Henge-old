@@ -49,7 +49,6 @@ public class Security {
 		return "security/register";
 	}
 	
-	
 	@RequestMapping(value="/register", method = RequestMethod.POST)
 	public String registerHandler(@Valid Register register, BindingResult rRegister, RedirectAttributes redirectAttributes) {
 		if(rRegister.hasErrors()) {
