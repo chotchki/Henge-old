@@ -133,7 +133,6 @@ public class Main {
 		hsm.setSessionTrackingModes(new HashSet<SessionTrackingMode>(Arrays.asList(SessionTrackingMode.COOKIE)));
 		hsm.setSessionCookie("c");
 		sh.setSessionManager(hsm);
-		
 		return _ctx;
 	}
 	
