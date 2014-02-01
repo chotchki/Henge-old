@@ -88,6 +88,7 @@ public class Config {
 		password,
 		forceSSL,
 		publicSslPort, //So that redirects to https will work
-		googleApiKey
+		googleApiKey,
+		googleApiDomain
 	}
 }
