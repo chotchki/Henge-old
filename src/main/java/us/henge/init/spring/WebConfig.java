@@ -1,13 +1,10 @@
 package us.henge.init.spring;
 
-import java.util.List;
-
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.format.datetime.joda.JodaTimeFormatterRegistrar;
-import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -24,6 +21,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 		registry.addResourceHandler("/static/img/**").addResourceLocations("/static/img/").setCachePeriod(60 * 60 * 24 *180);
 		registry.addResourceHandler("/static/js/**").addResourceLocations("/static/js/");
 		registry.addResourceHandler("/favicon.ico").addResourceLocations("/static/favicon.ico");
+		registry.addResourceHandler("/robots.txt").addResourceLocations("/static/robots.txt");
 		registry.addResourceHandler("/vendor/**").addResourceLocations("/vendor/").setCachePeriod(60 * 60 * 24 *180);
 	}
 	
