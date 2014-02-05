@@ -17,12 +17,7 @@
 			<div class="row">
 				<div class="navbar">
 					<div class="container">
-						<ol class="breadcrumb">
-							<li>Photos</li>
-							<li><a href="#">Library</a></li>
-							<li class="active">Data</li>
-						</ol>
-						<ul class="nav navbar-nav navbar-right">
+						<ul class="nav navbar-nav navbar-right" sec:authorize="isAuthenticated()">
 							<li><a th:href="@{/photos/new}" class="btn btn-success"><i class="fa fa-plus"></i> Create Album</a></li>
 						</ul>
 					</div>

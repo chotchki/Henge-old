@@ -27,11 +27,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	        .authorizeRequests() 
 	        	.antMatchers("/favicon.ico", "/static/**", "/vendor/**").permitAll()
 	        	.antMatchers("/login", "/register","/tracking").permitAll()
-	        	.antMatchers("/blog/**/edit").authenticated()
+	        	.antMatchers("/blog/new", "/photos/new", "/blog/**/edit", "/photos/**/edit").authenticated()
 	        	.antMatchers(HttpMethod.POST, "/blog", "/blog/**").authenticated()
 	        	
 	        	//Catch alls, GETs are allowed, POSTs are denied
-	        	.antMatchers(HttpMethod.POST, "/**").hasAnyRole("ROLE_ADMIN")
+	        	.antMatchers(HttpMethod.POST, "/**").authenticated()
 	            .anyRequest().permitAll()
 	            .and()
 	        .formLogin()

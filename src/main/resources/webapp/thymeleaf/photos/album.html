@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en"
+	xmlns:sec="http://www.thymeleaf.org/extras/dialect"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="template">
+<head>
+	<title>Photos</title>
+	
+	<link layout:fragment="css">
+		<link rel="stylesheet" th:href="@{/static/css/photos.css}" />
+	</link>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="container">
+			<div class="row" sec:authorize="isAuthenticated()">
+				<a th:href="@{/photos/album/} + ${album.id} + '/edit'" class="btn btn-default btn-lg pull-left"><i class="fa fa-edit"></i> Edit Album</a>
+				<form th:action="@{/photos/album/} + ${album.id} + '/delete'" method="POST" class="form-inline pull-right">
+					<button type="submit" class="btn btn-danger btn-lg"><i class="fa fa-trash-o"></i> Delete Album</button>
+				</form>
+			</div>	
+			
+			<hr sec:authorize="isAuthenticated()" />
+		</div>
+		<div class="container">
+			<div class="row well">
+				<h1><a th:href="@{/photos/album/} + ${album.id}" th:text="${album.name}"></a></h1>
+				<p>
+					<em th:text="${album.date}"></em>
+				</p>
+			
+				<hr />
+			</div>
+		</div>
+	</div>
+</body>
+</html>
