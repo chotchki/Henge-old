@@ -81,7 +81,7 @@ public class Main {
 				SslContextFactory scf = new SslContextFactory();
 				scf.setKeyStore(ks);
 				scf.setCertAlias("jetty");
-				scf.addExcludeCipherSuites(".*_DHE_.*");
+				//scf.addExcludeCipherSuites(".*_DHE_.*");
 				scf.setSessionCachingEnabled(true);
 				scf.setIncludeProtocols("TLSv1","TLSv1.1", "TLSv1.2");
 				scf.setKeyStorePassword(conf.getSettings().getProperty(Keys.password.toString()));
