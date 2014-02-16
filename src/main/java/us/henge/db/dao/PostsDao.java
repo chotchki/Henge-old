@@ -20,7 +20,7 @@ public interface PostsDao {
 	@Select("select id, published, title, content from posts where id = #{id}")
 	public Post getPostById(int id);
 	
-	@Select("select GREATEST(CEILING(count(*) / " + POSTS_PER_PAGE + "),1) from posts")
+	@Select("select GREATEST(CEILING(count(*) / " + POSTS_PER_PAGE + ".0),1) from posts")
 	public int getPageCount();
 	
 	@Insert("insert into posts (id, published, title, content) values (#{id}, #{published}, #{title}, #{content})")
