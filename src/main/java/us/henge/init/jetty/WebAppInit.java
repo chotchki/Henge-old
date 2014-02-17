@@ -3,12 +3,14 @@ package us.henge.init.jetty;
 import javax.servlet.Filter;
 
 import org.eclipse.jetty.servlets.GzipFilter;
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import us.henge.init.spring.RootConfig;
 import us.henge.init.spring.WebConfig;
 import us.henge.init.spring.security.SecurityConfig;
 import us.henge.utility.SslFilter;
+import us.henge.utility.security.KeyCreation;
 
 public class WebAppInit extends AbstractAnnotationConfigDispatcherServletInitializer  {
 
@@ -30,5 +32,11 @@ public class WebAppInit extends AbstractAnnotationConfigDispatcherServletInitial
 	@Override
 	protected Filter[] getServletFilters() {
 		return new Filter[]{new GzipFilter(), new SslFilter()};
+	}
+	
+	@Override
+	protected WebApplicationContext createServletApplicationContext(){
+		WebApplicationContext wac = super.createServletApplicationContext();
+		return wac;
 	}
 }

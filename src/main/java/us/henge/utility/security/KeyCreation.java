@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
 import org.apache.commons.codec.binary.Base64;
+import org.thymeleaf.context.VariablesMap;
 
 public class KeyCreation implements HttpSessionListener {
 	private static final SecureRandom random = new SecureRandom();
@@ -101,10 +102,21 @@ public class KeyCreation implements HttpSessionListener {
 		return new String(clearText, StandardCharsets.UTF_8);
 	}
 	
+	public static String encrypt(VariablesMap<String, Object> vm, String plain) throws Exception{
+		SecretKeySpec cipherKey = (SecretKeySpec) vm.get(enc);
+		SecretKeySpec hmacKey = (SecretKeySpec) vm.get(hash);
+		
+		return encryptInner(cipherKey, hmacKey, plain);
+	}
+	
 	public static String encrypt(HttpSession session, String plain) throws Exception {
 		SecretKeySpec cipherKey = (SecretKeySpec) session.getAttribute(enc);
 		SecretKeySpec hmacKey = (SecretKeySpec) session.getAttribute(hash);
 		
+		return encryptInner(cipherKey, hmacKey, plain);
+	}
+	
+	private static String encryptInner(SecretKeySpec cipherKey, SecretKeySpec hmacKey, String plain) throws Exception{
 		if(cipherKey == null || hmacKey == null){
 			throw new Exception("Missing required session variables!");
 		}

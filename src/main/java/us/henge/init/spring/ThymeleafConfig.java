@@ -13,6 +13,7 @@ import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import us.henge.utility.TimeDialect;
+import us.henge.utility.security.ProtectDialect;
 
 @Configuration
 public class ThymeleafConfig {
@@ -49,6 +50,7 @@ public class ThymeleafConfig {
 		engine.addDialect(new LayoutDialect());
 		engine.addDialect(new SpringSecurityDialect());
 		engine.addDialect(timeDialect);
+		engine.addDialect(new ProtectDialect());
 		return engine;
 	}
 

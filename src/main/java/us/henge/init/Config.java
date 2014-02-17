@@ -89,6 +89,7 @@ public class Config {
 		forceSSL,
 		publicSslPort, //So that redirects to https will work
 		googleApiKey,
-		googleApiDomain
+		googleApiDomain,
+		uploadFolder
 	}
 }

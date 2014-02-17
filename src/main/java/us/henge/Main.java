@@ -37,6 +37,7 @@ import us.henge.init.Config;
 import us.henge.init.SetupLogging;
 import us.henge.init.Config.Keys;
 import us.henge.init.jetty.FixedAnnotationConfig;
+import us.henge.utility.security.KeyCreation;
 
 public class Main {
 	private static int httpPort = 9000;
@@ -133,6 +134,8 @@ public class Main {
 		hsm.setSessionTrackingModes(new HashSet<SessionTrackingMode>(Arrays.asList(SessionTrackingMode.COOKIE)));
 		hsm.setSessionCookie("c");
 		sh.setSessionManager(hsm);
+		
+		_ctx.addEventListener(new KeyCreation());
 		return _ctx;
 	}
 	
