@@ -33,7 +33,7 @@ public class ProtectHrefProcessor extends AbstractStandardSingleAttributeModifie
     	try {
     		@SuppressWarnings("unchecked")
 			VariablesMap<String, Object> vm = (VariablesMap<String, Object>) arguments.getContext().getVariables().get("session");
-    		return KeyCreation.encrypt(vm, value);
+    		return ProtectedUrlFilter.HANDLER + "/" + KeyCreation.encrypt(vm, value);
     	} catch(Exception e){
     		log.warn("Had an error during encryption", e);
     		return "";
