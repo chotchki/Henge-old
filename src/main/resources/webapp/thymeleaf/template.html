@@ -49,7 +49,7 @@
 					
 					<ul class="nav navbar-nav pull-right">
 						<li><a sec:authorize="isAnonymous()" th:href="@{/login}">Login</a></li>
-						<li><a sec:authorize="isAuthenticated()" th:href="@{/logout}">Logout</a></li>
+						<li><a sec:authorize="isAuthenticated()" protect:href="@{/logout}">Logout</a></li>
 					</ul>
 				</div>
 			</div>

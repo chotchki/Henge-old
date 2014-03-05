@@ -10,7 +10,7 @@ import us.henge.init.spring.RootConfig;
 import us.henge.init.spring.WebConfig;
 import us.henge.init.spring.security.SecurityConfig;
 import us.henge.utility.SslFilter;
-import us.henge.utility.security.KeyCreation;
+import us.henge.utility.security.ProtectedUrlFilter;
 
 public class WebAppInit extends AbstractAnnotationConfigDispatcherServletInitializer  {
 
@@ -31,7 +31,8 @@ public class WebAppInit extends AbstractAnnotationConfigDispatcherServletInitial
 
 	@Override
 	protected Filter[] getServletFilters() {
-		return new Filter[]{new GzipFilter(), new SslFilter()};
+		//return new Filter[]{new GzipFilter(), new SslFilter()};
+		return new Filter[]{new GzipFilter(), new SslFilter(), new ProtectedUrlFilter()};
 	}
 	
 	@Override

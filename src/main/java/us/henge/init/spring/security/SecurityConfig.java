@@ -12,6 +12,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import us.henge.utility.security.LoginSuccessHandler;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -37,8 +39,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	        .formLogin()
 	        	.loginPage("/login")
 	        	.failureUrl("/login/error")
+	        	.successHandler(new LoginSuccessHandler())
 	        	.and()
-	        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+	        .sessionManagement()
+	        	.sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
 	        	.and();
 	}
 	

@@ -68,7 +68,17 @@ public class ProtectedUrlFilter implements Filter {
 			return;
 		}
 		
+		String encryptedPart = uri.replaceFirst(HANDLER + "/", "");
+		String decryptedPart = null;
+		try {
+			decryptedPart = KeyCreation.decrypt(session, encryptedPart);
+		} catch (Exception e) {
+			log.error("Unable to decrypt the string", e);
+			hres.sendError(HttpStatus.FORBIDDEN_403);
+			return;
+		}
 		
+		session.getServletContext().getRequestDispatcher(decryptedPart).forward(request, response);
 	}
 
 	@Override
