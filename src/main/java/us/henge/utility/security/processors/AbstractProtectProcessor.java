@@ -1,4 +1,4 @@
-package us.henge.utility.security;
+package us.henge.utility.security.processors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,13 +7,17 @@ import org.thymeleaf.context.VariablesMap;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.standard.processor.attr.AbstractStandardSingleAttributeModifierAttrProcessor;
 
-public class ProtectHrefProcessor extends AbstractStandardSingleAttributeModifierAttrProcessor{
-	private static final Logger log = LoggerFactory.getLogger(ProtectHrefProcessor.class);
+import us.henge.utility.security.KeyCreation;
+import us.henge.utility.security.ProtectedUrlFilter;
+
+public class AbstractProtectProcessor extends AbstractStandardSingleAttributeModifierAttrProcessor{
+	private static final Logger log = LoggerFactory.getLogger(AbstractProtectProcessor.class);
 	
-	public static final String ATTR_NAME = "href";
+	private final String ATTR;
 	
-    public ProtectHrefProcessor() {
-    	super(ATTR_NAME);
+    public AbstractProtectProcessor(String attrName) {
+    	super(attrName);
+    	ATTR = attrName;
     }
     
 	@Override
@@ -23,7 +27,7 @@ public class ProtectHrefProcessor extends AbstractStandardSingleAttributeModifie
 
 	@Override
 	protected String getTargetAttributeName(Arguments arguments, Element element, String attributeName) {
-		return ATTR_NAME;
+		return ATTR;
 	}
 	
     @Override

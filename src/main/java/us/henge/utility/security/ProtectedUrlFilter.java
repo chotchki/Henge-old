@@ -58,7 +58,7 @@ public class ProtectedUrlFilter implements Filter {
 		}
 		
 		//Allow everything non handler related through
-		if(!uri.startsWith(HANDLER)){
+		if(!uri.startsWith(HANDLER + "/")){
 			chain.doFilter(request, response);
 			return;
 		}

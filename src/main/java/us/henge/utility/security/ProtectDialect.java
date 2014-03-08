@@ -6,6 +6,9 @@ import java.util.Set;
 import org.thymeleaf.dialect.AbstractDialect;
 import org.thymeleaf.processor.IProcessor;
 
+import us.henge.utility.security.processors.ProtectDataRootFolder;
+import us.henge.utility.security.processors.ProtectHrefProcessor;
+
 public class ProtectDialect extends AbstractDialect {
 	public ProtectDialect() {
 		super();
@@ -20,6 +23,7 @@ public class ProtectDialect extends AbstractDialect {
     public Set<IProcessor> getProcessors() {
         final Set<IProcessor> processors = new HashSet<IProcessor>();
         processors.add(new ProtectHrefProcessor());
+        processors.add(new ProtectDataRootFolder());
         return processors;
     }
 }
