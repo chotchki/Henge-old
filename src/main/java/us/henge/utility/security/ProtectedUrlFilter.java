@@ -46,6 +46,8 @@ public class ProtectedUrlFilter implements Filter {
 		if(attr != null && attr.equals(ProtectedUrlFilter.class.getName())){
 			chain.doFilter(request, response);
 			return;
+		} else {
+			hreq.setAttribute(ProtectedUrlFilter.class.getName(), ProtectedUrlFilter.class.getName());
 		}
 		
 		//If protected, deny access
@@ -78,7 +80,7 @@ public class ProtectedUrlFilter implements Filter {
 			return;
 		}
 		
-		session.getServletContext().getRequestDispatcher(decryptedPart).forward(request, response);
+		request.getRequestDispatcher(decryptedPart).forward(request, response);
 	}
 
 	@Override
