@@ -23,7 +23,7 @@ public class ProtectedUrlFilter implements Filter {
 	public static final String SESSION_ATTR = ProtectedUrlFilter.class.getName() + "_session";
 	
 	private static final String[] protectUrls = new String[]{
-		"/photos/add/folder"
+		"/photos/add/"
 	};
 	
 

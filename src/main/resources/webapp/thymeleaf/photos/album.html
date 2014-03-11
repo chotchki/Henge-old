@@ -3,6 +3,7 @@
 	xmlns:sec="http://www.thymeleaf.org/extras/dialect"
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:protect="http://www.hedge.us/protect"
 	layout:decorator="template">
 <head>
 	<title>Photos</title>
@@ -19,49 +20,10 @@
 				<form th:action="@{/photos/album/} + ${album.id} + '/delete'" method="POST" class="form-inline pull-right">
 					<button type="submit" class="btn btn-danger btn-lg"><i class="fa fa-trash-o"></i> Delete Album</button>
 				</form>
-				<button class="btn btn-primary btn-lg pull-right" data-toggle="modal" data-target=".add-modal-lg"><i class="fa fa-folder-open"></i> Add Photos</button>
+				<a th:href="@{/photos/album/} + ${album.id} + '/add'" class="btn btn-primary btn-lg pull-right"><i class="fa fa-folder-open"></i> Add Photos</a>
 			</div>	
 			
 			<hr sec:authorize="isAuthenticated()" />
-		</div>
-		
-		<div class="modal fade add-modal-lg" tabindex="-1">
-			<div class="modal-dialog modal-lg">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-						<h4 class="modal-title" id="myModalLabel">Photo Adder</h4>
-					</div>
-					<div class="modal-body">
-						<div class="panel-group" id="uploadAccord">
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title">
-										<a data-toggle="collapse" data-parent="#uploadAccord" href="#folderSelect">Select Folder</a>
-									</h4>
-								</div>
- 								<div id="folderSelect" class="panel-collapse collapse in">
-									<div class="panel-body">
-										
-									</div>
-								</div>
-							</div>
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title">
-										<a data-toggle="collapse" data-parent="#uploadAccord" href="#collapseTwo">Select Pictures</a>
-									</h4>
-								</div>
- 								<div id="collapseTwo" class="panel-collapse collapse">
-									<div class="panel-body">
-										Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-									</div>
-								</div>
-							</div>
-						</div>
-					 </div>
-				</div>
-			</div>
 		</div>
 		
 		<div class="container">
@@ -77,7 +39,6 @@
 	</div>
 	
 	<div layout:fragment="js">
-		<script th:src="@{/static/js/addPhotos.js}"></script>
 	</div>
 </body>
 </html>

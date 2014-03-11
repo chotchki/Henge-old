@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:protect="http://www.hedge.us/protect"
+	layout:decorator="template">
+<head>
+	<title>Photos - Album Add Photos</title>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="container">
+			<div class="row well">
+				<form method="POST">
+					<div class="checkbox" th:each="file : ${files}">
+						<label>
+							<input type="checkbox" protect:value="${file}" />
+							<img class="img-thumbnail" protect:src="@{/photos/add/preview/} + ${file}" />
+						</label>
+					</div>
+					<button class="btn btn-primary btn-lg" type="submit">Save</button>
+				</form>
+			</div> 
+		</div>
+	</div>
+	
+	<div layout:fragment="js">
+	</div>
+</body>
+</html>

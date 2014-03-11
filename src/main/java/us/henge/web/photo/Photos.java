@@ -1,11 +1,11 @@
 package us.henge.web.photo;
 
-import java.io.File;
-import java.net.URLEncoder;
-import java.util.HashMap;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.util.List;
-import java.util.Map;
 
+import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -18,16 +18,16 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import us.henge.db.pojo.Item;
 import us.henge.db.service.ItemsService;
 import us.henge.service.PhotoService;
-import us.henge.service.pojo.PathDetails;
-import us.henge.utility.security.KeyCreation;
-import us.henge.utility.security.ProtectedUrlFilter;
+
+import com.mortennobel.imagescaling.AdvancedResizeOp;
+import com.mortennobel.imagescaling.DimensionConstrain;
+import com.mortennobel.imagescaling.ResampleOp;
 
 @Controller
 @RequestMapping(value = "/photos")
@@ -131,29 +131,32 @@ public class Photos {
 		return "redirect:/photos";
 	}
 	
-	@RequestMapping(value = "/add/folder", method = RequestMethod.GET)
-	public @ResponseBody Map<String, PathDetails> getFolders(HttpSession session) throws Exception{
-		List<PathDetails> contents = photoService.listFolder();
+	@RequestMapping(value = "/album/{number}/add", method = RequestMethod.GET)
+	public String showPhotoAdder(@PathVariable int number, Model mod, HttpSession session) throws Exception{
+		List<String> contents = photoService.listFolder();
+		mod.addAttribute("files", contents);
 		
-		Map<String, PathDetails> protectedContents = new HashMap<String, PathDetails>();
-		for(PathDetails content: contents){
-			String protectedPath = ProtectedUrlFilter.HANDLER + "/add/folder/" + URLEncoder.encode(content.getPath(), "UTF-8");
-			protectedContents.put(KeyCreation.encrypt(session, protectedPath), content);
-		}
-		
-		return protectedContents;
+		return "photos/add";
 	}
 	
-	@RequestMapping(value = "/add/folder/{path}", method = RequestMethod.GET)
-	public @ResponseBody Map<String, PathDetails> getFolders(HttpSession session, @PathVariable String path) throws Exception{
-		List<PathDetails> contents = photoService.listFolder(new File(path));
+	@RequestMapping(value = "/add/preview/{path:.+}", method = RequestMethod.GET)
+	public @ResponseBody BufferedImage getPhotoPreview(@PathVariable String path, HttpServletResponse response) throws Exception{
+		BufferedImage image = ImageIO.read(photoService.getFile(path)); 
 		
-		Map<String, PathDetails> protectedContents = new HashMap<String, PathDetails>();
-		for(PathDetails content: contents){
-			String protectedPath = "/add/folder/" + URLEncoder.encode(content.getPath(), "UTF-8");
-			protectedContents.put("/p" + KeyCreation.encrypt(session, protectedPath), content);
-		}
+		ResampleOp  resampleOp = new ResampleOp (DimensionConstrain.createMaxDimension(700, 100));
+		resampleOp.setUnsharpenMask(AdvancedResizeOp.UnsharpenMask.Normal);
+		BufferedImage rescaledImage = resampleOp.filter(image, null);
 		
-		return protectedContents;
+        // Create a byte array output stream.
+        ByteArrayOutputStream bao = new ByteArrayOutputStream();
+
+        // Write to output stream
+        ImageIO.write(rescaledImage, "jpg", bao);
+
+        response.setContentType("image/jpeg");
+        response.setContentLength(bao.size());
+        response.getOutputStream().write(bao.toByteArray());
+        
+        return rescaledImage;
 	}
 }

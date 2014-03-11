@@ -8,6 +8,8 @@ import org.thymeleaf.processor.IProcessor;
 
 import us.henge.utility.security.processors.ProtectDataRootFolder;
 import us.henge.utility.security.processors.ProtectHrefProcessor;
+import us.henge.utility.security.processors.ProtectSrcProcessor;
+import us.henge.utility.security.processors.ProtectValueProcessor;
 
 public class ProtectDialect extends AbstractDialect {
 	public ProtectDialect() {
@@ -24,6 +26,8 @@ public class ProtectDialect extends AbstractDialect {
         final Set<IProcessor> processors = new HashSet<IProcessor>();
         processors.add(new ProtectHrefProcessor());
         processors.add(new ProtectDataRootFolder());
+        processors.add(new ProtectSrcProcessor());
+        processors.add(new ProtectValueProcessor());
         return processors;
     }
 }
