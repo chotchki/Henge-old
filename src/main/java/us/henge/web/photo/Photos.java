@@ -2,6 +2,8 @@ package us.henge.web.photo;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -18,12 +20,15 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import us.henge.db.pojo.Item;
 import us.henge.db.service.ItemsService;
 import us.henge.service.PhotoService;
+import us.henge.utility.security.KeyCreation;
+import us.henge.web.pojo.AddPreview;
 
 import com.mortennobel.imagescaling.AdvancedResizeOp;
 import com.mortennobel.imagescaling.DimensionConstrain;
@@ -133,10 +138,24 @@ public class Photos {
 	
 	@RequestMapping(value = "/album/{number}/add", method = RequestMethod.GET)
 	public String showPhotoAdder(@PathVariable int number, Model mod, HttpSession session) throws Exception{
-		List<String> contents = photoService.listFolder();
+		List<AddPreview> contents = photoService.listFolder();
 		mod.addAttribute("files", contents);
 		
 		return "photos/add";
+	}
+	
+	@RequestMapping(value = "/album/{number}/add", method = RequestMethod.POST)
+	public String processPhotoAdder(@PathVariable int number, RedirectAttributes redirectAttributes, HttpSession session, @RequestParam("files[]") List<String> files) throws Exception{
+		List<String> fileNames = new ArrayList<String>();
+		for(String encName : files){
+			String decr = KeyCreation.decrypt(session, encName);
+			fileNames.add(decr);
+		}
+		
+		photoService.addPhotos(number, fileNames);
+		
+		redirectAttributes.addFlashAttribute("success", "Added all photos!");
+		return "redirect:/photos/album/" + number;
 	}
 	
 	@RequestMapping(value = "/add/preview/{path:.+}", method = RequestMethod.GET)

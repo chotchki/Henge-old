@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectKey;
 import org.apache.ibatis.annotations.Update;
@@ -19,6 +20,9 @@ public interface ItemsDao {
 	
 	@Select({"select", selectList, "from Items where parentId = #{id}"})
 	public List<Item> getItemsByParentId(int id);
+	
+	@Select({"select", selectList, "from Items where hash = #{hash}"})
+	public List<Item> getItemsByHash(@Param("hash") byte[] hash);
 	
 	@Insert({"insert into items (", selectList, ") values (#{id}, #{parentId}, #{defaultId}, #{name}, #{date}, #{mimeType}, #{hash})"})
 	@SelectKey(statement = "CALL IDENTITY()", before = false, keyProperty = "id", resultType = BigDecimal.class)

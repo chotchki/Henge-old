@@ -1,49 +1,115 @@
 package us.henge.service;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URLConnection;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-import javax.servlet.ServletContext;
-
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.ServletContextAware;
+import org.springframework.transaction.annotation.Transactional;
 
-import us.henge.init.Config.Keys;
+import us.henge.db.pojo.Item;
+import us.henge.db.service.ItemsService;
+import us.henge.utility.Hasher;
 import us.henge.utility.ImageFilenameFilter;
+import us.henge.web.pojo.AddPreview;
+
+import com.drew.imaging.ImageMetadataReader;
+import com.drew.imaging.ImageProcessingException;
+import com.drew.metadata.Metadata;
+import com.drew.metadata.exif.ExifSubIFDDirectory;
 
 @Service
-public class PhotoService implements ServletContextAware {
+public class PhotoService {
 	private static final Logger log = LoggerFactory.getLogger(PhotoService.class);
 	
-	private File uploadFolder = null;
+	@Autowired
+	private ContentService contentService;
 	
-	@Override
-	public void setServletContext(ServletContext sc) {
-		String parentPath = sc.getInitParameter(Keys.uploadFolder.toString());
+	@Autowired
+	private InitParamService initParamService = null;
+	
+	@Autowired
+	private ItemsService itemsService;
+	
+	@Transactional
+	public void addPhotos(int parent, List<String> fileNames) throws Exception{
+		Item parentItem = itemsService.getItemById(parent);
 		
-		if(parentPath == null){
-			log.info("Upload folder not set, the upload folder will error out.");
-			return;
+		if(parentItem == null){
+			throw new Exception("Parent Item " + parent + " does not exist");
 		}
 		
-		File parentFile = new File(parentPath);
-		if(!parentFile.isDirectory()){
-			log.error("Upload folder is not a directory! The upload folder will error out.");
+		for(String fileName: fileNames){
+			File file = getFile(fileName);
+			byte[] hash = contentService.copyContent(file);
+			
+			Item item = new Item();
+			item.setName(fileName);
+			
+			try(InputStream is = new BufferedInputStream(new FileInputStream(file))){
+				String mimeType = URLConnection.guessContentTypeFromStream(is);
+				if(mimeType == null) {
+					mimeType = URLConnection.guessContentTypeFromName(fileName);
+				}
+				
+				if(mimeType != null){
+					item.setMimeType(mimeType);
+				}
+			} 
+			
+			item.setParentId(parentItem.getId());
+			item.setHash(hash);
+			
+			Metadata metadata = ImageMetadataReader.readMetadata(file);
+			ExifSubIFDDirectory directory = metadata.getDirectory(ExifSubIFDDirectory.class);
+			if(directory != null){
+				Date date = directory.getDate(ExifSubIFDDirectory.TAG_DATETIME_ORIGINAL);
+				item.setDate(new DateTime(date));
+			}
+			if(item.getDate() == null){
+				item.setDate(new DateTime(file.lastModified()));
+			}
+			itemsService.create(item);
 		}
-		
-		uploadFolder = parentFile;
 	}
 	
-	public List<String> listFolder(){
-		List<String> fd = new ArrayList<String>();
+	public List<AddPreview> listFolder(){
+		List<AddPreview> fd = new ArrayList<AddPreview>();
 		
-		File[] pictures = uploadFolder.listFiles(new ImageFilenameFilter());
-		if(pictures != null){
-			for(File pic : pictures){
-				fd.add(pic.getName());
+		File[] pictures = initParamService.getUploadDirectory().listFiles(new ImageFilenameFilter());
+		if(pictures == null){
+			return fd;
+		}
+		
+		for(File pic : pictures){
+			try {
+				AddPreview ap = new AddPreview();
+				ap.setName(pic.getName());
+				ap.setDuplicate(itemsService.existsByHash(Hasher.hash(pic)));
+			
+				Metadata metadata = ImageMetadataReader.readMetadata(pic);
+				ExifSubIFDDirectory directory = metadata.getDirectory(ExifSubIFDDirectory.class);
+				if(directory != null){
+					Date date = directory.getDate(ExifSubIFDDirectory.TAG_DATETIME_ORIGINAL);
+					ap.setDate(new DateTime(date));
+				}
+				
+				fd.add(ap);
+			} catch (ImageProcessingException | IOException | NoSuchAlgorithmException e) {
+				AddPreview ap = new AddPreview();
+				ap.setName("Load Error " + pic.getName());
+				fd.add(ap);
 			}
 		}
 		
@@ -51,6 +117,6 @@ public class PhotoService implements ServletContextAware {
 	}
 	
 	public File getFile(String fileName){
-		return new File(uploadFolder.getPath() + File.separator + fileName);
+		return new File(initParamService.getUploadDirectory().getPath() + File.separator + fileName);
 	}
 }

@@ -1,5 +1,7 @@
 package us.henge.db.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +16,15 @@ public class ItemsService {
 	
 	public Item getItemById(int id){
 		return itemsDao.getItemById(id);
+	}
+	
+	public boolean existsByHash(byte[] hash){
+		List<Item> items = itemsDao.getItemsByHash(hash);
+		if(items.size() == 0){
+			return false;
+		} else {
+			return true;
+		}
 	}
 	
 	@Transactional

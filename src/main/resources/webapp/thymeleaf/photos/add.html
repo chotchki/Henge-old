@@ -13,18 +13,21 @@
 			<div class="row well">
 				<form method="POST">
 					<div class="checkbox" th:each="file : ${files}">
-						<label>
-							<input type="checkbox" protect:value="${file}" />
-							<img class="img-thumbnail" protect:src="@{/photos/add/preview/} + ${file}" />
+						<label class="checkbox-inline">
+							<input type="checkbox" name="files[]" protect:value="${file.name}" />
+							<img class="img-thumbnail" protect:src="@{/photos/add/preview/} + ${file.name}" />
+							<span th:if="${file.duplicate}"><i class="fa fa-warning "></i> Duplicate File! - </span>
+							<span th:text="${#dates.format(file.date, 'MMM dd, yyyy hh:mm aa')}"></span>
 						</label>
 					</div>
-					<button class="btn btn-primary btn-lg" type="submit">Save</button>
+					<button class="btn btn-primary btn-lg" type="submit">Add Photos</button>
 				</form>
 			</div> 
 		</div>
 	</div>
 	
 	<div layout:fragment="js">
+		<script th:src="@{/vendor/momentjs-2.5.0/momentjs.min.js}"></script>
 	</div>
 </body>
 </html>
