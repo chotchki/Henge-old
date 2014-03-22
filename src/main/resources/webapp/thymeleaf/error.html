@@ -9,8 +9,30 @@
 <body>
 	<div layout:fragment="content">
 		<div class="container">
-			<h1>I'm sorry but there has been an error :(</h1>
-			<p>If you would like to see why, please view the logs!</p>
+			<div class="well">
+				<h1>I'm sorry but there has been an error :(</h1>
+				<p>If you would like to see why, please expand below!</p>
+			</div>
+			<div class="panel-group" id="accordion">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title">
+							<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+							Show Details
+							</a>
+						</h4>
+					</div>
+					<div id="collapseOne" class="panel-collapse collapse">
+						<div class="panel-body">
+							<p th:if="${url}">Source Url: <span th:text="${url}"></span></p>
+							<p th:if="${exception}" th:text="${exception.message}"></p>
+							<ul th:if="${exception.stackTrace}" th:each="trace: ${exception.stackTrace}">
+								<li th:text="${trace}"></li>
+							</ul>	
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </body>

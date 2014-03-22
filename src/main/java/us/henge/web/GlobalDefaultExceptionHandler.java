@@ -24,7 +24,6 @@ public class GlobalDefaultExceptionHandler {
 		// Otherwise setup and send the user to a default error-view.
 		mv.addObject("exception", e);
 		mv.addObject("url", req.getRequestURL());
-		
 		return mv;
 	}
 }
