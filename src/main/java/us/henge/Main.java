@@ -4,9 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.security.KeyStore;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 
@@ -21,10 +19,7 @@ import org.eclipse.jetty.server.HttpConnectionFactory;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.session.HashSessionManager;
 import org.eclipse.jetty.server.session.SessionHandler;
-import org.eclipse.jetty.spdy.api.SPDY;
 import org.eclipse.jetty.spdy.server.http.HTTPSPDYServerConnector;
-import org.eclipse.jetty.spdy.server.http.PushStrategy;
-import org.eclipse.jetty.spdy.server.http.ReferrerPushStrategy;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.eclipse.jetty.webapp.Configuration;
 import org.eclipse.jetty.webapp.WebAppContext;
@@ -34,8 +29,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 
 import us.henge.init.Config;
-import us.henge.init.SetupLogging;
 import us.henge.init.Config.Keys;
+import us.henge.init.SetupLogging;
 import us.henge.init.jetty.FixedAnnotationConfig;
 import us.henge.utility.security.KeyCreation;
 
