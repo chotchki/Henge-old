@@ -14,14 +14,15 @@ import us.henge.db.pojo.Item;
 
 public interface ItemsDao {
 	public final String selectList = "id, parentId, defaultId, name, date, mimeType, hash";
+	public final String typeCase = ", (CASE WHEN parentId is null THEN 'ALBUM' WHEN (SELECT i.parentId from Items i where i.id = parentId) is null THEN 'PHOTO' ELSE 'VERSION' END)";
 	
-	@Select({"select", selectList, "from Items where id = #{id}"})
+	@Select({"select", selectList, typeCase, "from Items where id = #{id}"})
 	public Item getItemById(int id);
 	
-	@Select({"select", selectList, "from Items where parentId = #{id}"})
+	@Select({"select", selectList, typeCase, "from Items where parentId = #{id}"})
 	public List<Item> getItemsByParentId(int id);
 	
-	@Select({"select", selectList, "from Items where hash = #{hash}"})
+	@Select({"select", selectList, typeCase, "from Items where hash = #{hash}"})
 	public List<Item> getItemsByHash(@Param("hash") byte[] hash);
 	
 	@Insert({"insert into items (", selectList, ") values (#{id}, #{parentId}, #{defaultId}, #{name}, #{date}, #{mimeType}, #{hash})"})

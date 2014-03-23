@@ -12,6 +12,7 @@ public class Item {
 	private DateTime date = new DateTime();
 	private String mimeType = null;
 	private byte[] hash = null;
+	private ItemType itemType = null;
 	
 	public BigDecimal getId() {
 		return id;
@@ -54,5 +55,11 @@ public class Item {
 	}
 	public void setHash(byte[] hash) {
 		this.hash = hash;
+	}
+	public ItemType getItemType() {
+		return itemType;
+	}
+	public void setItemType(ItemType itemType) {
+		this.itemType = itemType;
 	}
 }

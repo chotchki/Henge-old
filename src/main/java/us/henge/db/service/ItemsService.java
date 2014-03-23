@@ -18,6 +18,10 @@ public class ItemsService {
 		return itemsDao.getItemById(id);
 	}
 	
+	public List<Item> getItemsByParentId(int parent){
+		return itemsDao.getItemsByParentId(parent);
+	}
+	
 	public boolean existsByHash(byte[] hash){
 		List<Item> items = itemsDao.getItemsByHash(hash);
 		if(items.size() == 0){
