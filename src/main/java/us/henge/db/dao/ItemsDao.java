@@ -14,7 +14,7 @@ import us.henge.db.pojo.Item;
 
 public interface ItemsDao {
 	public final String selectList = "id, parentId, defaultId, name, date, mimeType, hash";
-	public final String typeCase = ", (CASE WHEN parentId is null THEN 'ALBUM' WHEN (SELECT i.parentId from Items i where i.id = parentId) is null THEN 'PHOTO' ELSE 'VERSION' END)";
+	public final String typeCase = ", rtrim(CASE WHEN parentId is null THEN 'ALBUM' WHEN (SELECT i.parentId from Items i where i.id = parentId) is null THEN 'PHOTO' ELSE 'VERSION' END) itemType";
 	
 	@Select({"select", selectList, typeCase, "from Items where id = #{id}"})
 	public Item getItemById(int id);

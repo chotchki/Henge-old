@@ -15,8 +15,12 @@ import org.eclipse.jetty.plus.jndi.Resource;
 import org.eclipse.jetty.server.ConnectionFactory;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Handler;
+import org.eclipse.jetty.server.HttpConfiguration;
 import org.eclipse.jetty.server.HttpConnectionFactory;
+import org.eclipse.jetty.server.SecureRequestCustomizer;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.ServerConnector;
+import org.eclipse.jetty.server.SslConnectionFactory;
 import org.eclipse.jetty.server.session.HashSessionManager;
 import org.eclipse.jetty.server.session.SessionHandler;
 import org.eclipse.jetty.spdy.server.http.HTTPSPDYServerConnector;
@@ -65,15 +69,24 @@ public class Main {
 		sl.startFile(conf.getParentPath());
 		
 		// Setup Jetty
-		Server server = new Server(httpPort);
+		Server server = new Server();
 
 		try {
 			server.setHandler(createHandlers(conf.getSettings()));
 			server.setStopAtShutdown(true);
 			setupDb(conf.getParentPath() + File.separator + "db");
-		
+
+	        HttpConfiguration http_config = new HttpConfiguration();
+	        
+	        ServerConnector http = new ServerConnector(server,new HttpConnectionFactory(http_config));       
+	        http.setPort(httpPort);
+	        http.setIdleTimeout(30000);
+			
 			KeyStore ks = conf.getKeyStore();
 			if(ks != null){
+		        HttpConfiguration https_config = new HttpConfiguration(http_config);
+		        https_config.addCustomizer(new SecureRequestCustomizer());
+				
 				SslContextFactory scf = new SslContextFactory();
 				scf.setKeyStore(ks);
 				scf.setCertAlias("jetty");
@@ -82,16 +95,15 @@ public class Main {
 				scf.setIncludeProtocols("TLSv1","TLSv1.1", "TLSv1.2");
 				scf.setKeyStorePassword(conf.getSettings().getProperty(Keys.password.toString()));
 				
-				//Setup auto push!
-				//Map<Short, PushStrategy> mp = new HashMap<Short, PushStrategy>();
-				//ReferrerPushStrategy rps = new ReferrerPushStrategy();
-				//mp.put(SPDY.V2, rps);
-				//mp.put(SPDY.V3, rps);
+		        ServerConnector https = new ServerConnector(server, 
+		        		new SslConnectionFactory(scf,"http/1.1"), 
+		        		new HttpConnectionFactory(https_config));
+		        https.setPort(9443);
+		        https.setIdleTimeout(500000);
 				
-				HTTPSPDYServerConnector hssc = new HTTPSPDYServerConnector(server, scf);
-				hssc.setPort(9443);
-				
-				server.addConnector(hssc);
+		        server.setConnectors(new Connector[]{http, https});
+			} else {
+				server.setConnectors(new Connector[]{http});
 			}
 			
 			//Disable Server Signature

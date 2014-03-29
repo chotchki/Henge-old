@@ -3,6 +3,11 @@ package us.henge.init.spring;
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 
+import net.sf.ehcache.Ehcache;
+import net.sf.ehcache.config.CacheConfiguration;
+import net.sf.ehcache.config.PersistenceConfiguration;
+import net.sf.ehcache.config.PersistenceConfiguration.Strategy;
+
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
@@ -11,6 +16,10 @@ import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.ehcache.EhCacheCacheManager;
+import org.springframework.cache.ehcache.EhCacheManagerFactoryBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -32,6 +41,7 @@ import com.googlecode.flyway.core.Flyway;
 @ComponentScan(value = "us.henge", excludeFilters = {
 		  @ComponentScan.Filter(value=Controller.class)
 		  })
+@EnableCaching
 public class RootConfig {
 	private static final Logger log = LoggerFactory.getLogger(RootConfig.class);
 	
@@ -101,5 +111,31 @@ public class RootConfig {
 			}
 		}
 		throw new Exception("Bcrypt cannot be setup in a reasonable number of rounds");
+	}
+	
+	@Bean
+	public CacheManager cacheManager() {
+		EhCacheManagerFactoryBean bean = new EhCacheManagerFactoryBean();
+
+		try {
+			bean.afterPropertiesSet();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		
+		net.sf.ehcache.CacheManager myCM = bean.getObject();
+		
+		Ehcache thumbnail = myCM.addCacheIfAbsent("thumbnail");
+		CacheConfiguration thumbnailConf = thumbnail.getCacheConfiguration();
+		thumbnailConf.maxEntriesLocalHeap(1000);
+		thumbnailConf.timeToIdleSeconds(60 * 60 * 24 * 7); //one week
+		thumbnailConf.timeToLiveSeconds(60 * 60 * 24 * 7);
+		//thumbnailConf.addPersistence(new PersistenceConfiguration().strategy(Strategy.LOCALTEMPSWAP));
+		thumbnailConf.maxEntriesLocalDisk(10000);
+		
+		EhCacheCacheManager cm = new EhCacheCacheManager();
+		cm.setCacheManager(myCM);
+		
+		return cm;
 	}
 }

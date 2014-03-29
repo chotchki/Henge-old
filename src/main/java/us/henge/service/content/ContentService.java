@@ -1,4 +1,4 @@
-package us.henge.service;
+package us.henge.service.content;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import us.henge.service.InitParamService;
 import us.henge.utility.Hasher;
 
 @Service
@@ -35,7 +36,7 @@ public class ContentService {
 		return hash;
 	}
 	
-	private File getTargetPath(byte[] hash) throws Exception{
+	public File getTargetPath(byte[] hash) throws Exception{
 		String hash64 = Base64.encodeBase64URLSafeString(hash);
 		
 		String first = hash64.substring(0, 1);

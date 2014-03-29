@@ -11,7 +11,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
 		<jetty.version>9.1.2.v20140210</jetty.version>
-		<hsql.version>2.3.1</hsql.version>
+		<hsql.version>2.3.2</hsql.version>
 		<spring.version>4.0.0.RELEASE</spring.version>
 		<spring.sec.version>3.2.0.RELEASE</spring.sec.version>
 		<jackson.version>2.3.0</jackson.version>
@@ -91,7 +91,7 @@
 		<dependency>
 			<groupId>org.mybatis</groupId>
 			<artifactId>mybatis</artifactId>
-			<version>3.2.3</version>
+			<version>3.2.6</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mybatis</groupId>
@@ -126,6 +126,11 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aop</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
 		<dependency>
@@ -269,6 +274,13 @@
 			<groupId>com.drewnoakes</groupId>
 			<artifactId>metadata-extractor</artifactId>
 			<version>2.6.2</version>
+		</dependency>
+
+		<!-- Caching Abstraction -->
+		<dependency>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache</artifactId>
+			<version>2.8.1</version>
 		</dependency>
 
 	</dependencies>

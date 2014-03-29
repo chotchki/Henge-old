@@ -25,8 +25,7 @@
 			
 			<hr sec:authorize="isAuthenticated()" />
 		</div>
-		
-		<div class="container">
+	
 			<div class="row well">
 				<h1><a th:href="@{/photos/album/} + ${album.id}" th:text="${album.name}"></a></h1>
 				<p>
@@ -35,10 +34,16 @@
 			
 				<hr />
 				
-				
+				<ul class="list-inline">
+					<li th:each="item: ${items}">
+						<a th:href="@{/photos/items/} + ${item.id}">
+							<img class="img-responsive" th:src="@{/photos/items/} + ${item.id} + '/view/300'" />
+						</a>
+					</li>
+				</ul>
 			</div>
 		</div>
-	</div>
+
 	
 	<div layout:fragment="js">
 	</div>

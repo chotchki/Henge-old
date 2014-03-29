@@ -1,4 +1,4 @@
-package us.henge.service;
+package us.henge.service.content;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import us.henge.db.pojo.Item;
 import us.henge.db.service.ItemsService;
+import us.henge.service.InitParamService;
 import us.henge.utility.Hasher;
 import us.henge.utility.ImageFilenameFilter;
 import us.henge.web.pojo.AddPreview;
@@ -51,7 +52,7 @@ public class PhotoService {
 		}
 		
 		for(String fileName: fileNames){
-			File file = getFile(fileName);
+			File file = getPreviewFile(fileName);
 			byte[] hash = contentService.copyContent(file);
 			
 			Item item = new Item();
@@ -84,7 +85,7 @@ public class PhotoService {
 		}
 	}
 	
-	public List<AddPreview> listFolder(){
+	public List<AddPreview> listAddFolder(){
 		List<AddPreview> fd = new ArrayList<AddPreview>();
 		
 		File[] pictures = initParamService.getUploadDirectory().listFiles(new ImageFilenameFilter());
@@ -96,7 +97,8 @@ public class PhotoService {
 			try {
 				AddPreview ap = new AddPreview();
 				ap.setName(pic.getName());
-				ap.setDuplicate(itemsService.existsByHash(Hasher.hash(pic)));
+				//ap.setDuplicate(itemsService.existsByHash(Hasher.hash(pic)));
+				ap.setDuplicate(false);
 			
 				Metadata metadata = ImageMetadataReader.readMetadata(pic);
 				ExifSubIFDDirectory directory = metadata.getDirectory(ExifSubIFDDirectory.class);
@@ -106,7 +108,7 @@ public class PhotoService {
 				}
 				
 				fd.add(ap);
-			} catch (ImageProcessingException | IOException | NoSuchAlgorithmException e) {
+			} catch (ImageProcessingException | IOException e) {
 				AddPreview ap = new AddPreview();
 				ap.setName("Load Error " + pic.getName());
 				fd.add(ap);
@@ -116,7 +118,7 @@ public class PhotoService {
 		return fd;
 	}
 	
-	public File getFile(String fileName){
+	public File getPreviewFile(String fileName){
 		return new File(initParamService.getUploadDirectory().getPath() + File.separator + fileName);
 	}
 }

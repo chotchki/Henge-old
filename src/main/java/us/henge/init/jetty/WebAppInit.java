@@ -31,7 +31,6 @@ public class WebAppInit extends AbstractAnnotationConfigDispatcherServletInitial
 
 	@Override
 	protected Filter[] getServletFilters() {
-		//return new Filter[]{new GzipFilter(), new SslFilter()};
 		return new Filter[]{new GzipFilter(), new SslFilter(), new ProtectedUrlFilter()};
 	}
 	
