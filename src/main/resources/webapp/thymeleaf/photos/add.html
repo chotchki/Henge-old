@@ -15,7 +15,7 @@
 					<div class="checkbox" th:each="file : ${files}">
 						<label class="checkbox-inline">
 							<input type="checkbox" name="files[]" protect:value="${file.name}" />
-							<img class="img-thumbnail" protect:src="@{/photos/add/preview/} + ${file.name}" />
+							<img class="img-thumbnail" protect:src="@{/photos/photo/preview/} + ${file.name}" />
 							<span th:if="${file.duplicate}"><i class="fa fa-warning "></i> Duplicate File! - </span>
 							<span th:text="${#dates.format(file.date, 'MMM dd, yyyy hh:mm aa')}"></span>
 						</label>

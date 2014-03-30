@@ -34,13 +34,8 @@
 			
 				<hr />
 				
-				<ul class="list-inline">
-					<li th:each="item: ${items}">
-						<a th:href="@{/photos/items/} + ${item.id}">
-							<img th:src="@{/photos/items/} + ${item.id} + '/view/250'" />
-						</a>
-					</li>
-				</ul>
+				<div class="photos" th:attr="data-photos=@{/photos/album/} + ${album.id} + '/contents'">
+				</div>
 			</div>
 		</div>
 </div>

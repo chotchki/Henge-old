@@ -9,6 +9,16 @@
 }
 
 /* center container with CSS */
-.list-inline{
+.photos{
   margin: 0 auto;
+}
+
+.item {
+  width: 275px;
+  float: left;
+}
+
+.item img {
+  display: block;
+  width: 100%;
 }
