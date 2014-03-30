@@ -7,3 +7,8 @@
         margin: 7px 10px;
     }
 }
+
+/* center container with CSS */
+.list-inline{
+  margin: 0 auto;
+}

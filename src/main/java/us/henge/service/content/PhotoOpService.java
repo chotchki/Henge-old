@@ -23,10 +23,10 @@ public class PhotoOpService {
 	@Autowired
 	private CacheManager cacheManager = null;
 	
-	public byte[] getResized(File file, int maxHeight) throws IOException{
+	public byte[] getResized(File file, int maxWidth) throws IOException{
 		Cache thumbCache = cacheManager.getCache("thumbnail");
 		
-		String key = file.getName() + "|" + maxHeight;
+		String key = file.getName() + "|" + maxWidth;
 		ValueWrapper vw = thumbCache.get(key);
 		if(vw != null){
 			return (byte[]) vw.get();
@@ -34,7 +34,7 @@ public class PhotoOpService {
 		
 		BufferedImage image = ImageIO.read(file); 
 		
-		ResampleOp  resampleOp = new ResampleOp (DimensionConstrain.createMaxDimension(2000, maxHeight));
+		ResampleOp  resampleOp = new ResampleOp (DimensionConstrain.createMaxDimension(maxWidth, 2000));
 		resampleOp.setUnsharpenMask(AdvancedResizeOp.UnsharpenMask.Normal);
 		BufferedImage rescaledImage = resampleOp.filter(image, null);
 		
@@ -47,8 +47,8 @@ public class PhotoOpService {
 		return bImage;
 	}
 	
-	public void serveResized(HttpServletResponse response, File file, int maxHeight) throws IOException{
-		byte[] image = getResized(file, maxHeight);
+	public void serveResized(HttpServletResponse response, File file, int maxWidth) throws IOException{
+		byte[] image = getResized(file, maxWidth);
 
         response.setContentType("image/jpeg");
         
