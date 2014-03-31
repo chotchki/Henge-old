@@ -28,7 +28,7 @@
 				<div th:each="album : ${albums}" class="row well">
 					<h1><a th:href="@{/photos/album/} + ${album.id}" th:text="${album.name}"></a></h1>
 					<p>
-						<em th:text="${album.date}"></em>
+						<em th:text="${#dates.format(album.date, 'MMM dd, yyyy hh:mm aa')}"></em>
 					</p>
 			
 					<hr />
