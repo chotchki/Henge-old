@@ -20,8 +20,9 @@ $.fn.masonryImagesReveal = function( $items ) {
 };
 
 (function(){
-	$('.photos').each(function(){
+	$('.photos').each(function(index, element){
 		var parent = this;
+		var e = element;
 		var url = $(this).data('photos');
 		$.getJSON(url)
 			.fail(function() {
@@ -30,7 +31,7 @@ $.fn.masonryImagesReveal = function( $items ) {
 			.done(function(json) {
 				$(parent).empty();
 				
-				var $container = $('.photos').masonry({
+				var $container = $(e).masonry({
 					itemSelector: '.item',
 					columnWidth: 275,
 					isFitWidth: true

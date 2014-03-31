@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en"
+	xmlns:sec="http://www.thymeleaf.org/extras/dialect"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="template">
+<head>
+	<title>Photos</title>
+	
+	<link layout:fragment="css">
+		<link rel="stylesheet" th:href="@{/static/css/photos.css}" />
+	</link>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="container">
+			<div class="row">
+				<div class="navbar">
+					<div class="container">
+						<ul class="nav navbar-nav navbar-right" sec:authorize="isAuthenticated()">
+							<li><a th:href="@{/photos/album/new}" class="btn btn-success"><i class="fa fa-plus"></i> Create Album</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<hr sec:authorize="isAuthenticated()" />
+			<div th:each="album : ${albums}" class="row well">
+				<h1><a th:href="@{/photos/album/} + ${album.id}" th:text="${album.name}"></a></h1>
+				<p>
+					<em th:text="${album.date}"></em>
+				</p>
+			
+				<hr />
+				
+				<div class="photos" th:attr="data-photos=@{/photos/album/} + ${album.id} + '/contents'">
+				</div>
+			</div>
+			<div class="row" th:if="${totalPages gt 1}">
+				<ul class="pagination">
+					<li th:class="${currentPage == 1}? 'disabled' : ''">
+						<a th:href="@{/photos/page/} + ${currentPage - 1}">&laquo;</a>
+					</li>
+					<li th:class="${currentPage == 1}? 'active' : ''">
+						<a th:href="@{/photos/page/1}">1</a>
+					</li>
+					<li th:if="${currentPage gt 3 and totalPages gt 3}" class="disabled">
+						<a>...</a>
+					</li>
+					<li th:if="${currentPage gt 2 and currentPage == totalPages and totalPages gt 3}">
+						<a th:text="${currentPage - 2}" th:href="@{/photos/page/} + ${currentPage - 2}"></a>
+					</li>
+					<li th:if="${currentPage gt 2}"><a th:text="${currentPage - 1}" th:href="@{/photos/page/} + ${currentPage - 1}"></a></li>
+					<li th:if="${currentPage ne 1 and currentPage ne totalPages}" class="active">
+						<a th:text="${currentPage}" th:href="@{/photos/page/} + ${currentPage}"></a>
+					</li>
+					<li th:if="${currentPage lt totalPages - 1}">
+						<a th:text="${currentPage + 1}" th:href="@{/photos/page/} + ${currentPage + 1}"></a>
+					</li>
+					<li th:if="${currentPage lt totalPages - 1 and currentPage eq 1 and totalPages gt 3}">
+						<a th:text="${currentPage + 2}" th:href="@{/photos/page/} + ${currentPage + 2}"></a>
+					</li>
+					<li th:if="${currentPage lt totalPages - 2 and totalPages gt 3}" class="disabled">
+						<a>...</a>
+					</li>
+					<li th:class="${currentPage eq totalPages}? 'active' : ''">
+						<a th:text="${totalPages}" th:href="@{/photos/page/} + ${totalPages}"></a>
+					</li>
+					<li th:class="${currentPage lt totalPages}? '' : 'disabled'">
+						<a th:href="@{/photos/page/} + ${currentPage + 1}">&raquo;</a>
+					</li>
+				</ul>		
+			</div>
+		</div>
+	</div>
+	
+	<div layout:fragment="js">
+		<script th:src="@{/vendor/masonry-3.1.5/masonry.js}"></script>
+		<script th:src="@{/vendor/imagesloaded-3.1.4/imagesloaded.pkgd.min.js}"></script>
+		<script th:src="@{/static/js/photos/photoView.js}"></script>
+	</div>
+</body>
+</html>

@@ -22,6 +22,14 @@ public class ItemsService {
 		return itemsDao.getItemsByParentId(parent);
 	}
 	
+	public List<Item> getAlbumsByPage(int page){
+		return itemsDao.getAlbumsByPage((page - 1) * ItemsDao.ALBUMS_PER_PAGE);
+	}
+	
+	public int getAlbumCount(){
+		return itemsDao.getAlbumCount();
+	}
+	
 	public boolean existsByHash(byte[] hash){
 		List<Item> items = itemsDao.getItemsByHash(hash);
 		if(items.size() == 0){

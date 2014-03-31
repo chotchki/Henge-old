@@ -5,8 +5,6 @@ import javax.sql.DataSource;
 
 import net.sf.ehcache.Ehcache;
 import net.sf.ehcache.config.CacheConfiguration;
-import net.sf.ehcache.config.PersistenceConfiguration;
-import net.sf.ehcache.config.PersistenceConfiguration.Strategy;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.joda.time.DateTime;
@@ -130,7 +128,6 @@ public class RootConfig {
 		thumbnailConf.maxEntriesLocalHeap(1000);
 		thumbnailConf.timeToIdleSeconds(60 * 60 * 24 * 7); //one week
 		thumbnailConf.timeToLiveSeconds(60 * 60 * 24 * 7);
-		//thumbnailConf.addPersistence(new PersistenceConfiguration().strategy(Strategy.LOCALTEMPSWAP));
 		thumbnailConf.maxEntriesLocalDisk(10000);
 		
 		EhCacheCacheManager cm = new EhCacheCacheManager();
