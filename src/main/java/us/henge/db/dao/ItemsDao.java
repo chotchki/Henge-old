@@ -13,7 +13,7 @@ import org.apache.ibatis.annotations.Update;
 import us.henge.db.pojo.Item;
 
 public interface ItemsDao {
-	public final static int ALBUMS_PER_PAGE = 5;
+	public final static int ALBUMS_PER_PAGE = 1;
 	
 	public final String selectList = "id, parentId, defaultId, name, date, mimeType, hash";
 	public final String typeCase = ", rtrim(CASE WHEN parentId is null THEN 'ALBUM' WHEN (SELECT i.parentId from Items i where i.id = parentId) is null THEN 'PHOTO' ELSE 'VERSION' END) itemType";

@@ -20,7 +20,7 @@ $.fn.masonryImagesReveal = function( $items ) {
 };
 
 (function(){
-	$('.photos').each(function(index, element){
+	var loadImgs = function(index, element){
 		var parent = this;
 		var e = element;
 		var url = $(this).data('photos');
@@ -44,7 +44,26 @@ $.fn.masonryImagesReveal = function( $items ) {
 					images += '<img src="/photos/items/' + json[i].id + '/view/275" /></a></div>';
 				}
 				$container.masonryImagesReveal($(images));
+				$(parent).removeClass('photos').addClass('photos-loaded');
 			});
-	});	
+	};
+	
+	$('.photos').each(loadImgs);
+
+	$('#albums').infinitescroll({
+		debug        : true, 
+	    navSelector  : ".pagination",            
+	                   // selector for the paged navigation (it will be hidden)
+	    nextSelector : ".pagination li:last a",    
+	                   // selector for the NEXT link (to page 2)
+	    itemSelector : "#albums .row",          
+	                   // selector for all items you'll retrieve
+		},function( newElements ) {
+	    	$('.photos').each(loadImgs);
+	    }
+	 );
 })();
+
+
+	
 

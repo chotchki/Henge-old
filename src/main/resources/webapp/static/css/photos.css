@@ -12,6 +12,9 @@
 .photos{
   margin: 0 auto;
 }
+.photos-loaded{
+  margin: 0 auto;
+}
 
 .item {
   width: 275px;

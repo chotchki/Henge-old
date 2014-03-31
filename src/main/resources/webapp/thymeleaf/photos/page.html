@@ -24,15 +24,17 @@
 				</div>
 			</div>
 			<hr sec:authorize="isAuthenticated()" />
-			<div th:each="album : ${albums}" class="row well">
-				<h1><a th:href="@{/photos/album/} + ${album.id}" th:text="${album.name}"></a></h1>
-				<p>
-					<em th:text="${album.date}"></em>
-				</p>
+			<div id="albums">
+				<div th:each="album : ${albums}" class="row well">
+					<h1><a th:href="@{/photos/album/} + ${album.id}" th:text="${album.name}"></a></h1>
+					<p>
+						<em th:text="${album.date}"></em>
+					</p>
 			
-				<hr />
+					<hr />
 				
-				<div class="photos" th:attr="data-photos=@{/photos/album/} + ${album.id} + '/contents'">
+					<div class="photos" th:attr="data-photos=@{/photos/album/} + ${album.id} + '/contents'">
+					</div>
 				</div>
 			</div>
 			<div class="row" th:if="${totalPages gt 1}">
@@ -76,7 +78,8 @@
 	<div layout:fragment="js">
 		<script th:src="@{/vendor/masonry-3.1.5/masonry.js}"></script>
 		<script th:src="@{/vendor/imagesloaded-3.1.4/imagesloaded.pkgd.min.js}"></script>
-		<script th:src="@{/static/js/photos/photoView.js}"></script>
+		<script th:src="@{/vendor/infinite-scroll-v2.0b.120520/infinite-scroll.js}"></script>
+		<script th:src="@{/static/js/photos/scroll.js}"></script>
 	</div>
 </body>
 </html>
